@@ -1,0 +1,7 @@
+$primary-color: rgb(135, 184, 133);
+$secondary-color: rgb(255, 255, 255);
+$body-text-color: rgb(69, 69, 69);
+$background-color: rgb(245,245,245);
+$border-color: rgba(110, 110, 122, .5);
+
+$image-overlay: linear-gradient(45deg, $primary-color 20%, lighten($primary-color, 30%) 100%);

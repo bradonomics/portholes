@@ -1,0 +1,79 @@
+.site-footer {
+  padding-right: $spacer;
+  padding-left: $spacer;
+
+  .form {
+    margin: 0 auto 8.25rem;
+    max-width: 50rem;
+
+    .header {
+      margin-top: ($spacer * 2.5);
+      margin-bottom: ($spacer * 2);
+      line-height: 1;
+      font-size: $h2-font-size;
+      font-weight: 700;
+      overflow-wrap: break-word;
+    }
+
+    p {
+      text-align: center;
+    }
+
+  }
+
+  .navigation {
+    @extend %row; // in utilities.scss
+    margin-bottom: 8.25rem;
+    text-align: center;
+    @include breakpoint(md) {
+      text-align: left;
+    }
+
+    > div {
+      padding-right: 2rem;
+      padding-left: 2rem;
+      @include breakpoint(xl) {
+        padding-right: 5rem;
+        padding-left: 5rem;
+      }
+    }
+
+  }
+
+  .navigation__title {
+    margin-top: ($spacer * 2.5);
+    margin-bottom: ($spacer * 2);
+    line-height: 1;
+    font-size: $h3-font-size;
+    font-weight: 700;
+    overflow-wrap: break-word;
+  }
+
+  .navigation__list > * {
+    display: block;
+    margin-bottom: ($spacer / 3);
+  }
+
+  .newsletter-signup {
+    position: relative;
+
+    input[type='submit'] {
+      position: absolute;
+      top: 0;
+      right: 0;
+      border-radius: 0 .438rem .438rem 0;
+      background-color: $primary-color;
+
+      &:hover {
+        background-color: lighten($primary-color, 7%);
+      }
+
+    }
+
+  }
+
+  .license {
+    text-align: center;
+  }
+
+}

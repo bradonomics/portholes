@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Portholes</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+
+    <header class="site-header" itemscope itemtype="https://schema.org/WPHeader">
+
+      <div class="title-area">
+        <% if user_signed_in? %>
+          <p class="site-title" itemprop="headline"><%= link_to "Portholes", folder_path("inbox") %></p>
+        <% else %>
+          <p class="site-title" itemprop="headline"><%= link_to "Portholes", folder_path("inbox") %></p>
+        <% end %>
+      </div>
+
+      <button class="responsive-menu-icon" aria-expanded="false" aria-controls="navigation">Menu</button>
+
+      <nav class="navigation" id="navigation" itemscope itemtype="https://schema.org/SiteNavigationElement">
+        <ul class="menu" data-collapsed="true">
+        <% if user_signed_in? %>
+          <% unless current_page?(folder_path("archive")) %>
+            <%= content_tag(:li, link_to("Download", download_folder_path(params[:permalink]), target: "_blank"), class: "menu-item") %>
+          <% end %>
+          <%= content_tag(:li, link_to("Account Settings", edit_user_registration_path, itemprop: "url"), class: ["menu-item", ("active" if current_page?(edit_user_registration_path))]) %>
+          <%= content_tag(:li, link_to("Sign Out", destroy_user_session_path, method: :delete, itemprop: "url"), class: "menu-item") %>
+        <% else %>
+          <%= content_tag(:li, link_to("Sign In", new_user_session_path, itemprop: "url"), class: ["menu-item", ("active" if current_page?(new_user_session_path))]) %>
+          <%= content_tag(:li, link_to("Create Account", new_user_registration_path, itemprop: "url"), class: ["menu-item", ("active" if current_page?(new_user_registration_path))]) %>
+        <% end %>
+      </nav>
+    </header>
+
+    <div class="site-inner">
+      <%= render "layouts/flash" %>
+      <%= yield %>
+    </div>
+
+    <footer></footer>
+
+  </body>
+
+</html>

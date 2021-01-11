@@ -1,0 +1,29 @@
+.flash {
+  position: relative;
+  align-self: baseline;
+  margin-bottom: $spacer;
+  width: 100%;
+  border: 1px solid transparent;
+  border-radius: .25rem;
+  padding: ($spacer * .75) ($spacer * 1.25);
+}
+
+.flash-notice,
+.flash-success {
+  border-color: #c3e6cb;
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.flash-warning {
+  border-color: #ffeeba;
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.flash-alert,
+.flash-error {
+  border-color: #f5c6cb;
+  background-color: #f8d7da;
+  color: #721c24;
+}

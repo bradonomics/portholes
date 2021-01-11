@@ -1,0 +1,84 @@
+%wrap {
+  position: relative;
+  width: 100%;
+  max-width: 40rem;
+  padding: 0 1rem;
+  @include breakpoint(lg) {
+    max-width: 48rem;
+  }
+  @include breakpoint(xl) {
+    max-width: 57rem;
+  }
+  @include breakpoint(xxl) {
+    max-width: 64rem;
+  }
+}
+
+.site-inner {
+  @extend %row; // in utilities.scss
+  @extend %wrap; // in structure.scss (above)
+  position: relative;
+  flex: 1 0 auto;
+  margin: 0 auto;
+  padding: 11.28rem $spacer 0;
+
+  .archive &,
+  .home & {
+    max-width: 82rem;
+  }
+
+  .landing & {
+    padding-top: 6rem;
+  }
+
+}
+
+.main {
+  display: block; // Fixes IE bug on `main` element
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  @include breakpoint(lg) {
+    flex: 0 0 30rem;
+    max-width: 30rem;
+  }
+  @include breakpoint(xl) {
+    flex: 0 0 42rem;
+    max-width: 42rem;
+  }
+  @include breakpoint(xxl) {
+    flex: 0 0 51rem;
+    max-width: 51rem;
+  }
+
+  .archive &,
+  .home & {
+    flex: 0 0 auto;
+    max-width: 100%;
+  }
+
+  .full-width & {
+    margin: 0 auto;
+    @include breakpoint(lg) {
+      flex: 0 0 43rem;
+      max-width: 43rem;
+    }
+  }
+
+}
+
+.sidebar {
+  position: relative;
+  order: 2;
+  width: 100%;
+  max-width: 100%;
+  @include breakpoint(lg) {
+    flex: 0 0 9rem;
+    order: 0;
+    max-width: 9rem;
+  }
+  // @include breakpoint(xxl) {
+  //   flex: 0 0 17rem;
+  //   max-width: 17rem;
+  // }
+}

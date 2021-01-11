@@ -1,0 +1,51 @@
+.sidebar {
+
+  // ul {
+  //   list-style-position: inside;
+  // }
+  //
+  // li {
+  //   margin-bottom: ($spacer / 2);
+  //   border-bottom: .05rem dotted #ddd;
+  //   padding-bottom: ($spacer / 2);
+  // }
+  //
+  // p:last-child,
+  // ul > li:last-child {
+  //   margin-bottom: 0;
+  // }
+  //
+  // .widget {
+  //   margin-bottom: ($spacer * 2);
+  //   background-color: #fff;
+  // }
+
+  nav a {
+    display: flex;
+    margin-bottom: ($spacer / 2);
+    text-decoration: none;
+    color: $body-text-color;
+    font-weight: bold;
+
+    &:hover {
+      color: $primary-color;
+
+      &::before {
+        color: $primary-color;
+      }
+
+    }
+
+    &.active {
+      color: $primary-color;
+    }
+
+    svg {
+      display: inline-block;
+      margin-right: .3rem;
+      width: .8rem;
+    }
+
+  }
+
+}

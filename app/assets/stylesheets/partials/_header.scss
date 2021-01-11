@@ -1,0 +1,66 @@
+.site-header {
+  @extend %row; // in utilities.scss
+  position: fixed;
+  transition: all .5s ease;
+  z-index: 9;
+  width: 100%;
+  background-color: $background-color;
+  padding-right: ($spacer * 2);
+  padding-left: ($spacer * 2);
+  @include breakpoint(md) {
+    align-items: center;
+    background-color: transparent;
+    padding-top: .8rem;
+    padding-bottom: .8rem;
+  }
+
+  &.fixed {
+    background-color: $background-color;
+  }
+
+}
+
+.title-area {
+  @include breakpoint(md) {
+    width: 100%;
+  }
+  @include breakpoint(lg) {
+    width: initial;
+  }
+}
+
+.site-title {
+  margin: 2rem 0;
+  // margin-bottom: 0;
+  text-align: center;
+  line-height: 1.2;
+  font-size: $h5-font-size;
+  font-weight: 400;
+  @include breakpoint(md) {
+    margin: 0;
+  }
+
+  a {
+    text-decoration: none;
+    color: $body-text-color;
+    font-size: 1.25rem;
+    font-weight: 700;
+
+    &:hover {
+      text-decoration: none;
+      color: $body-text-color;
+    }
+
+  }
+
+}
+
+.header-image .site-title {
+  display: block;
+  text-indent: -9999px;
+
+  > a {
+    background: url('/assets/images/logo.png') no-repeat left;
+  }
+
+}
