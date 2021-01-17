@@ -2,7 +2,7 @@
 
   <aside class="sidebar">
     <nav class="widget" itemscope itemtype="https://schema.org/SiteNavigationElement">
-      <%= link_to folder_path("inbox"), class: ("active" if current_page?(folder_path("inbox"))), itemprop: "url" do %>
+      <%= link_to folder_path("unread"), class: ("active" if current_page?(folder_path("unread"))), itemprop: "url" do %>
         <%= inline_svg('home.svg') %>Home
       <% end %>
       <%= link_to folder_path("archive"), class: ("active" if current_page?(folder_path("archive"))), itemprop: "url" do %>
@@ -41,7 +41,7 @@
             <% unless current_page?(folder_path("archive")) %>
               <%= link_to image_tag("archive.svg"), archive_article_path(article), method: :patch, class: "archive" %>
             <% end %>
-            <% unless current_page?(folder_path("inbox")) %>
+            <% unless current_page?(folder_path("unread")) %>
               <%= link_to image_tag("home.svg"), unarchive_article_path(article), method: :patch, class: "archive" %>
             <% end %>
             <%= link_to image_tag("trash.svg"), article_path(article), method: :delete, data: { confirm: "Are you sure you want to permanently delete this article?" }, class: "delete" %>

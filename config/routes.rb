@@ -29,4 +29,10 @@ Rails.application.routes.draw do
   end
   # resources :articles, only: [:index]
 
+  namespace :hello, defaults: { format: 'js' } do
+    # resources :articles
+    get ":hello_token" => "articles#index"
+    post ":hello_token" => "articles#create"
+  end
+
 end

@@ -1,3 +1,7 @@
+require 'httparty'
+require 'nokogiri'
+require 'uri'
+
 class ArticlesController < ApplicationController
 
   before_action :authenticate_user!
@@ -28,7 +32,7 @@ class ArticlesController < ApplicationController
   # POST /articles.json
   def create
     check_http_status(article_params[:link].to_s)
-    clean_url = strip_utm_params(article_params[:link].to_s)
+    clean_url = strip_utm_params(link)
     # if link is already in database for this user, move it to home
     if current_user.articles.find_by_link(clean_url).present?
       @article = current_user.articles.find_by_link(clean_url)
@@ -39,8 +43,6 @@ class ArticlesController < ApplicationController
       folder_id = folder.id
       @article.folder_id = folder_id
       @article.position = 0
-      @article.save!
-      redirect_back(fallback_location: folder_path)
     else
       @article = current_user.articles.new(article_params)
       @article.user = current_user
@@ -49,32 +51,28 @@ class ArticlesController < ApplicationController
       @article.folder_id = folder_id
       @article.title = get_title(@article.link)
       @article.position = current_user.articles.count
-      @article.save!
-      redirect_back(fallback_location: folder_path, success: "Article saved.")
     end
+    @article.save!
+    redirect_back(fallback_location: folder_path)
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
-    if @article.errors.include?(:link)
-      redirect_to folder_path, warning: @article.errors.full_message(:link, 'already saved.')
-    else
-      redirect_to folder_path, error: "Failed to save article.<br>ActiveRecord, not :link, error<br>#{@article.errors.full_messages}"
-    end
+    redirect_to folder_path, error: "Failed to save article.<br>ActiveRecord, not :link, error<br>#{@article.errors.full_messages}"
   rescue FetchError => error
     redirect_to folder_path, error: "Article not found. Check the URL and try again.<br>#{error}"
   end
 
   # PATCH/PUT /articles/1
   # PATCH/PUT /articles/1.json
-  def update
-    respond_to do |format|
-      if @article.update(article_params)
-        format.html { redirect_to @article, notice: 'Article was successfully updated.' }
-        format.json { render :show, status: :ok, location: @article }
-      else
-        format.html { render :edit }
-        format.json { render json: @article.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+  # def update
+  #   respond_to do |format|
+  #     if @article.update(article_params)
+  #       format.html { redirect_to @article, notice: 'Article was successfully updated.' }
+  #       format.json { render :show, status: :ok, location: @article }
+  #     else
+  #       format.html { render :edit }
+  #       format.json { render json: @article.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
 
   # PATCH /articles/1/archive
   def archive
@@ -89,9 +87,9 @@ class ArticlesController < ApplicationController
 
   # PATCH /articles/1/unarchive
   def unarchive
-    current_user.articles.left_outer_joins(:folder).where(folder: { name: "inbox" }, position: 0).update(position: 1)
+    current_user.articles.left_outer_joins(:folder).where(folder: { name: "unread" }, position: 0).update(position: 1)
     @article.position = 0
-    folder = Folder.where(name: "inbox", user_id: current_user.id).first_or_create
+    folder = Folder.where(name: "unread", user_id: current_user.id).first_or_create
     @article.folder_id = folder.id
     @article.save!
     redirect_back(fallback_location: folder_path)
@@ -120,6 +118,56 @@ class ArticlesController < ApplicationController
     # Only allow a list of trusted parameters through.
     def article_params
       params.require(:article).permit(:title, :link, :position, :user_id, :folder_id)
+    end
+
+    # Check that the article is returning a 200 status code.
+    def check_http_status(url)
+      if HTTParty.get(url).response.code == '200'
+        return
+      else
+        raise FetchError, "Article not found. Check the URL and try again."
+      end
+    rescue HTTParty::Error => error
+      raise FetchError, error.to_s
+    rescue StandardError => error
+      raise FetchError, error.to_s
+    end
+
+    # Get the title for displaying in the list.
+    def get_title(url)
+      request = HTTParty.get(url)
+      title = Nokogiri::HTML(request.body).at_css("title").text
+      h1 = Nokogiri::HTML(request.body).at_css("h1").text
+      if title.present?
+        return title
+      elsif h1.present?
+        return h1
+      else
+        return "No Title Found"
+      end
+    rescue HTTParty::Error => error
+      raise FetchError, error.to_s
+    rescue StandardError => error
+      raise FetchError, error.to_s
+    end
+
+    def strip_utm_params(url)
+      uri = URI.parse(url)
+      # `URI.decode_www_form` will error if `uri.query` is blank, so check first.
+      if uri.query.blank?
+        return url
+      else
+        clean_key_vals = URI.decode_www_form(uri.query).reject { |k, _| k.start_with?('utm_' || 'sessionID' || 'ref') }
+        # TODO: How to strip anchor links (#this-thing)?
+        uri.query = URI.encode_www_form(clean_key_vals)
+        url = uri.to_s
+        if url.end_with?("?")
+          url.delete_suffix!("?")
+        end
+        return url
+      end
+    rescue StandardError => error
+      raise FetchError, "#{error}"
     end
 
 end

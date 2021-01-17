@@ -28,33 +28,33 @@ class FoldersController < ApplicationController
 
   # POST /folders
   # POST /folders.json
-  def create
-    @folder = Folder.new(folder_params)
-
-    respond_to do |format|
-      if @folder.save
-        format.html { redirect_to @folder, notice: 'Folder was successfully created.' }
-        format.json { render :show, status: :created, location: @folder }
-      else
-        format.html { render :new }
-        format.json { render json: @folder.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+  # def create
+  #   @folder = Folder.new(folder_params)
+  #
+  #   respond_to do |format|
+  #     if @folder.save
+  #       format.html { redirect_to @folder, notice: 'Folder was successfully created.' }
+  #       format.json { render :show, status: :created, location: @folder }
+  #     else
+  #       format.html { render :new }
+  #       format.json { render json: @folder.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
 
   # PATCH/PUT /folders/1
   # PATCH/PUT /folders/1.json
-  def update
-    respond_to do |format|
-      if @folder.update(folder_params)
-        format.html { redirect_to @folder, notice: 'Folder was successfully updated.' }
-        format.json { render :show, status: :ok, location: @folder }
-      else
-        format.html { render :edit }
-        format.json { render json: @folder.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+  # def update
+  #   respond_to do |format|
+  #     if @folder.update(folder_params)
+  #       format.html { redirect_to @folder, notice: 'Folder was successfully updated.' }
+  #       format.json { render :show, status: :ok, location: @folder }
+  #     else
+  #       format.html { render :edit }
+  #       format.json { render json: @folder.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
 
   # PATCH /folders/1/sort
   def sort

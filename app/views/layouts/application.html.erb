@@ -16,9 +16,9 @@
 
       <div class="title-area">
         <% if user_signed_in? %>
-          <p class="site-title" itemprop="headline"><%= link_to "Portholes", folder_path("inbox") %></p>
+          <p class="site-title" itemprop="headline"><%= link_to "Portholes", folder_path("unread") %></p>
         <% else %>
-          <p class="site-title" itemprop="headline"><%= link_to "Portholes", folder_path("inbox") %></p>
+          <p class="site-title" itemprop="headline"><%= link_to "Portholes", folder_path("unread") %></p>
         <% end %>
       </div>
 
@@ -34,7 +34,7 @@
           <%= content_tag(:li, link_to("Sign Out", destroy_user_session_path, method: :delete, itemprop: "url"), class: "menu-item") %>
         <% else %>
           <%= content_tag(:li, link_to("Sign In", new_user_session_path, itemprop: "url"), class: ["menu-item", ("active" if current_page?(new_user_session_path))]) %>
-          <%= content_tag(:li, link_to("Create Account", new_user_registration_path, itemprop: "url"), class: ["menu-item", ("active" if current_page?(new_user_registration_path))]) %>
+          <%# content_tag(:li, link_to("Create Account", new_user_registration_path, itemprop: "url"), class: ["menu-item", ("active" if current_page?(new_user_registration_path))]) %>
         <% end %>
       </nav>
     </header>

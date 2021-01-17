@@ -1,0 +1,2 @@
+<%# For more uglifier options: https://www.rubydoc.info/gems/uglifier/ %>
+<%= raw Uglifier.new(mangle: {toplevel: true}).compile(render "index") %>

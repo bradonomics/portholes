@@ -1,0 +1,51 @@
+// Add CSS block
+var style = document.createElement('style');
+var head = document.head || document.getElementsByTagName('head')[0];
+var css = "\
+  .portholes-notice {\
+    position: fixed;\
+    top: 15px;\
+    left: 15px;\
+    background-color: red;\
+    width: 100%;\
+    max-width: 350px;\
+  }\
+";
+
+style.type = 'text/css';
+head.appendChild(style);
+style.appendChild(document.createTextNode(css));
+
+// Add HTML block
+div = document.createElement('div');
+div.setAttribute('class', 'portholes-notice');
+
+function transferComplete() {
+  div.innerHTML = "\
+    <p>Your link has been saved to Portholes.</p>\
+  ";
+}
+
+function transferFailed() {
+  div.innerHTML = "\
+    <p>There was an error saving your link.</p>\
+    <p>You should visit the Portholes app and try adding it manually.</p>\
+  ";
+}
+
+// Add text
+document.body.appendChild(div);
+
+var request = new XMLHttpRequest();
+request.addEventListener('load', transferComplete);
+request.addEventListener('error', transferFailed);
+
+var body = document.body;
+var url = '<%= root_url %>hello/<%= current_user.hello_token %>?link=' + document.location.href;
+
+if (body) try {
+  request.open('POST', url);
+  request.send();
+} catch(e) {
+  alert('Something went wrong.');
+}
