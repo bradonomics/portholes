@@ -4,8 +4,8 @@ en:
   devise:
     confirmations:
       confirmed: "Your email address has been successfully confirmed."
-      send_instructions: "You will receive an email with instructions for how to confirm your email address in a few minutes."
-      send_paranoid_instructions: "If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes."
+      send_instructions: "You should receive an email shortly with instructions to confirm your account."
+      send_paranoid_instructions: "If your email address exists in our database, you should receive an email shortly with instructions to confirm that account."
     failure:
       already_authenticated: "You are already signed in."
       inactive: "Your account is not activated yet."
@@ -18,15 +18,15 @@ en:
       unconfirmed: "You have to confirm your email address before continuing."
     mailer:
       confirmation_instructions:
-        subject: "Confirmation instructions"
+        subject: "Confirm Your Portholes.app Account"
       reset_password_instructions:
-        subject: "Reset password instructions"
+        subject: "Reset Your Portholes.app Password"
       unlock_instructions:
-        subject: "Unlock instructions"
+        subject: "Unlock Your Portholes.app Account"
       email_changed:
-        subject: "Email Changed"
+        subject: "Your Portholes.app Email Changed"
       password_change:
-        subject: "Password Changed"
+        subject: "Your Portholes.app Password Changed"
     omniauth_callbacks:
       failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
       success: "Successfully authenticated from %{kind} account."
@@ -37,11 +37,11 @@ en:
       updated: "Your password has been changed successfully. You are now signed in."
       updated_not_active: "Your password has been changed successfully."
     registrations:
-      destroyed: "Bye! Your account has been successfully cancelled. We hope to see you again soon."
-      signed_up: "Welcome! You have signed up successfully."
-      signed_up_but_inactive: "You have signed up successfully. However, we could not sign you in because your account is not yet activated."
+      destroyed: "Your account has been deleted."
+      signed_up: "Welcome. You have signed up successfully."
+      signed_up_but_inactive: "You have signed up successfully. However, we could not sign you in because your account is not activated."
       signed_up_but_locked: "You have signed up successfully. However, we could not sign you in because your account is locked."
-      signed_up_but_unconfirmed: "A message with a confirmation link has been sent to your email address. Please follow the link to activate your account."
+      signed_up_but_unconfirmed: "You should receive an email shortly with instructions to activate your account."
       update_needs_confirmation: "You updated your account successfully, but we need to verify your new email address. Please check your email and follow the confirmation link to confirm your new email address."
       updated: "Your account has been updated successfully."
       updated_but_not_signed_in: "Your account has been updated successfully, but since your password was changed, you need to sign in again"

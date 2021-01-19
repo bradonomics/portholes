@@ -1,34 +1,47 @@
 <main class="main">
-  <h2>Edit <%= resource_name.to_s.humanize %></h2>
+
+  <h2>How to Save</h2>
+
+  <p>Portholes Bookmarklet</p>
+
+  <p>Drag the bookmarklet below to your bookmarks bar. You can save news articles, blog posts, et cetera by clicking it when you are on a web page.</p>
+
+  <div class="mb-2">
+    <a class="button" href="javascript:void%20function(){script=document.createElement(%22script%22),script.src=%22<%= root_url %>hello/<%= current_user.hello_token %>%22,document.head.appendChild(script)}();">Save to Portholes</a>
+    <span>← Drag this button to your bookmarks bar.</span>
+  </div>
+
+  <p>When you click this bookmarket, a message will show on the page you have saved meaning it has been saved to your unread folder.</p>
+
+  <h2>Edit Your Account<%# resource_name.to_s.humanize %></h2>
 
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
     <%= render "user/shared/error_messages", resource: resource %>
 
     <div class="field">
-      <%= f.label :email %><br />
+      <%= f.label :email %>
       <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
     </div>
 
     <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-      <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+      <div>Waiting confirmation for: <%= resource.unconfirmed_email %></div>
     <% end %>
 
     <div class="field">
-      <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
+      <%= f.label :password %> <i>(leave blank if you don't want to change it)</i>
       <%= f.password_field :password, autocomplete: "new-password" %>
       <% if @minimum_password_length %>
-        <br />
-        <em><%= @minimum_password_length %> characters minimum</em>
+        <em><%= @minimum_password_length %> character minimum</em>
       <% end %>
     </div>
 
     <div class="field">
-      <%= f.label :password_confirmation %><br />
+      <%= f.label :password_confirmation %>
       <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
     </div>
 
     <div class="field">
-      <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+      <%= f.label :current_password %> <i>(your current password is needed to confirm changes)</i>
       <%= f.password_field :current_password, autocomplete: "current-password" %>
     </div>
 

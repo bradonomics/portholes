@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
-  root "folders#show"
+  # root "folders#show"
+  root to: redirect('/folder/unread')
 
   devise_for :user
   # controllers: {
