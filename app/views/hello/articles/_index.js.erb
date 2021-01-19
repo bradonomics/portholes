@@ -6,6 +6,7 @@ var css = "\
     position: fixed;\
     top: 15px;\
     left: 15px;\
+    z-index: 99999999;\
     background-color: red;\
     width: 100%;\
     max-width: 350px;\
@@ -22,13 +23,13 @@ div.setAttribute('class', 'portholes-notice');
 
 function transferComplete() {
   div.innerHTML = "\
-    <p>Your link has been saved to Portholes.</p>\
+    <p>This page has been saved to Portholes.</p>\
   ";
 }
 
 function transferFailed() {
   div.innerHTML = "\
-    <p>There was an error saving your link.</p>\
+    <p>There was an error saving this page.</p>\
     <p>You should visit the Portholes app and try adding it manually.</p>\
   ";
 }
@@ -41,7 +42,7 @@ request.addEventListener('load', transferComplete);
 request.addEventListener('error', transferFailed);
 
 var body = document.body;
-var url = '<%= root_url %>hello/<%= current_user.hello_token %>?link=' + document.location.href;
+var url = '<%= root_url %>hello/<%= @current_user.hello_token %>?link=' + document.location.href;
 
 if (body) try {
   request.open('POST', url);

@@ -9,6 +9,7 @@ module Hello
     after_action :set_access_control_headers
 
     def index
+      @current_user = User.find_by_hello_token(params[:hello_token])
       render content_type: "text/javascript"
     end
 
