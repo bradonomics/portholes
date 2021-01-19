@@ -31,8 +31,8 @@ class ArticlesController < ApplicationController
   # POST /articles
   # POST /articles.json
   def create
-    check_http_status(article_params[:link].to_s)
-    clean_url = strip_utm_params(link)
+    check_http_status(article_params[:link])
+    clean_url = strip_utm_params(article_params[:link])
     # if link is already in database for this user, move it to home
     if current_user.articles.find_by_link(clean_url).present?
       @article = current_user.articles.find_by_link(clean_url)
@@ -44,16 +44,16 @@ class ArticlesController < ApplicationController
       @article.folder_id = folder_id
       @article.position = 0
     else
-      @article = current_user.articles.new(article_params)
+      @article = current_user.articles.new(link: clean_url)
       @article.user = current_user
       folder = Folder.find_by_name(params[:folder])
       folder_id = folder.id
       @article.folder_id = folder_id
-      @article.title = get_title(@article.link)
+      @article.title = get_title(clean_url)
       @article.position = current_user.articles.count
     end
     @article.save!
-    redirect_back(fallback_location: folder_path)
+    redirect_back(fallback_location: folder_path("unread"))
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
     redirect_to folder_path, error: "Failed to save article.<br>ActiveRecord, not :link, error<br>#{@article.errors.full_messages}"
   rescue FetchError => error
