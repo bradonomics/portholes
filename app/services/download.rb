@@ -5,10 +5,9 @@ class Download
   attr_reader :directory
   attr_reader :files
 
-  def initialize(articles)
+  def initialize(user, articles)
     @articles = articles
-    # TODO: eventually this should be something like username-date
-    @directory = "tmp/brad"
+    @directory = "tmp/#{user.hello_token}-#{DateTime.now.to_s.parameterize}"
     @files = []
   end
 

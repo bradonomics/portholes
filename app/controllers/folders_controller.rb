@@ -70,13 +70,14 @@ class FoldersController < ApplicationController
     folder = Folder.find(folder_id)
 
     articles = current_user.articles.left_outer_joins(:folder).where(folder: folder)
-    ebook = Download.new(articles)
+    ebook = Download.new(current_user, articles)
     ebook.download
     TableOfContents.create("#{ebook.directory}/toc.html", ebook.files)
-    EbookCreator.mobi(ebook.directory)
-    ebook_file = File.join Rails.root, "#{ebook.directory}.mobi"
+    ebook_file_name = "Portholes-#{folder.permalink}-#{Date.today.to_s}"
+    EbookCreator.mobi(ebook.directory, ebook_file_name)
+    ebook_file = File.join Rails.root, "#{ebook_file_name}.mobi"
     File.open(ebook_file, 'r') do |f|
-      send_data f.read.force_encoding('BINARY'), :filename => "brad.mobi", :type => "application/mobi", :disposition => "attachment"
+      send_data f.read.force_encoding('BINARY'), :filename => "#{ebook_file_name}.mobi", :type => "application/mobi", :disposition => "attachment"
     end
     File.delete(ebook_file)
   end

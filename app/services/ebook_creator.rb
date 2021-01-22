@@ -1,7 +1,7 @@
 module EbookCreator
-  def self.mobi(directory)
+  def self.mobi(directory, ebook_file_name)
     system("zip -r #{directory}.zip #{directory}")
-    system("ebook-convert #{directory}.zip #{directory}.mobi --no-inline-toc --change-justification 'left'")
+    system("ebook-convert #{directory}.zip #{ebook_file_name}.mobi --authors \"Portholes\" --no-inline-toc --change-justification 'left'")
     system("rm #{directory}.zip")
     system("rm -rf #{directory}")
   end
