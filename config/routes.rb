@@ -3,10 +3,10 @@ Rails.application.routes.draw do
   # root "folders#show"
   root to: redirect('/folder/unread')
 
-  devise_for :user
-  # controllers: {
-  #   registrations: 'users/registrations'
-  # }
+  devise_for :user,
+  controllers: {
+    registrations: 'users/registrations'
+  }
   # path: "",
   # path_names: {
   #   sign_in: "login",
