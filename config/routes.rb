@@ -17,9 +17,10 @@ Rails.application.routes.draw do
   get '/user', to: redirect('/folder/unread')
 
   get "folder/:permalink" => "folders#show", as: "folder_permalink"
+  get "folder/:permalink/mobi" => "folders#mobi", as: "mobi_folder"
+  get "folder/:permalink/epub" => "folders#epub", as: "epub_folder"
   resources :folders, path: "/folder" do
     member do
-      get :download
       patch :sort
     end
   end

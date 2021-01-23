@@ -9,8 +9,8 @@ class FoldersController < ApplicationController
     @folders = Folder.all
   end
 
-  # GET /folders/1
-  # GET /folders/1.json
+  # GET /folders/:permalink
+  # GET /folders/:permalink.json
   def show
     folder_id = Folder.find_by_permalink(params[:permalink]).id
     @folder = Folder.find(folder_id)
@@ -22,7 +22,7 @@ class FoldersController < ApplicationController
     @folder = Folder.new
   end
 
-  # GET /folders/1/edit
+  # GET /folders/:permalink/edit
   def edit
   end
 
@@ -56,7 +56,7 @@ class FoldersController < ApplicationController
   #   end
   # end
 
-  # PATCH /folders/1/sort
+  # PATCH /folders/:permalink/sort
   def sort
     params[:articles].split(',').map.with_index do |id, position|
       current_user.articles.find_by_id(id).update_columns(position: position)
@@ -64,9 +64,9 @@ class FoldersController < ApplicationController
     head :ok
   end
 
-  # GET /folders/1/download
-  def download
-    folder_id = Folder.find_by_permalink(params[:id]).id
+  # GET /folders/:permalink/mobi
+  def mobi
+    folder_id = Folder.find_by_permalink(params[:permalink]).id
     folder = Folder.find(folder_id)
 
     articles = current_user.articles.left_outer_joins(:folder).where(folder: folder)
@@ -82,8 +82,26 @@ class FoldersController < ApplicationController
     File.delete(ebook_file)
   end
 
-  # DELETE /folders/1
-  # DELETE /folders/1.json
+  # GET /folders/:permalink/epub
+  def epub
+    folder_id = Folder.find_by_permalink(params[:permalink]).id
+    folder = Folder.find(folder_id)
+
+    articles = current_user.articles.left_outer_joins(:folder).where(folder: folder)
+    ebook = Download.new(current_user, articles)
+    ebook.download
+    TableOfContents.create("#{ebook.directory}/toc.html", ebook.files)
+    ebook_file_name = "Portholes-#{folder.permalink}-#{Date.today.to_s}"
+    EbookCreator.epub(ebook.directory, ebook_file_name)
+    ebook_file = File.join Rails.root, "#{ebook_file_name}.epub"
+    File.open(ebook_file, 'r') do |f|
+      send_data f.read.force_encoding('BINARY'), :filename => "#{ebook_file_name}.epub", :type => "application/epub", :disposition => "attachment"
+    end
+    File.delete(ebook_file)
+  end
+
+  # DELETE /folders/:permalink
+  # DELETE /folders/:permalink.json
   def destroy
     @folder.destroy
     respond_to do |format|
