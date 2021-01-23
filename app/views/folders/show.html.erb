@@ -1,9 +1,6 @@
 <% if current_user %>
 
   <aside class="sidebar">
-    <% unless current_page?(folder_path("archive")) %>
-      <%= link_to("Download", download_folder_path(params[:permalink]), target: "_blank", class: "button primary") %>
-    <% end %>
     <nav class="widget" itemscope itemtype="https://schema.org/SiteNavigationElement">
       <%= link_to folder_path("unread"), class: ("active" if current_page?(folder_path("unread"))), itemprop: "url" do %>
         <%= inline_svg('home.svg') %>Home

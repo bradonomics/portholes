@@ -27,6 +27,9 @@
       <nav class="navigation" id="navigation" itemscope itemtype="https://schema.org/SiteNavigationElement">
         <ul class="menu" data-collapsed="true">
         <% if user_signed_in? %>
+          <% if downloadable_folder? %>
+            <%= content_tag(:li, link_to("Download", "javascript:void(0);", onclick: "modal('download-modal')", itemprop: "url"), class: "menu-item") %>
+          <% end %>
           <%= content_tag(:li, link_to("Account Settings", edit_user_registration_path, itemprop: "url"), class: ["menu-item", ("active" if current_page?(edit_user_registration_path))]) %>
           <%= content_tag(:li, link_to("Sign Out", destroy_user_session_path, method: :delete, itemprop: "url"), class: "menu-item") %>
         <% else %>
@@ -40,6 +43,21 @@
       <%= render "layouts/flash" %>
       <%= yield %>
     </div>
+
+    <% if downloadable_folder? %>
+      <div id="download-modal" class="modal">
+        <div class="modal__content">
+          <div class="modal__header">
+            Download
+            <span class="modal__close" data-close="true" title="Close">&times;</span>
+          </div>
+          <div class="modal__body">
+            <%= link_to("Mobi", mobi_folder_path, itemprop: "url", class: "button") %>
+            <%= link_to("ePub", epub_folder_path, itemprop: "url", class: "button") %>
+          </div>
+        </div>
+      </div>
+    <% end %>
 
     <footer></footer>
 
