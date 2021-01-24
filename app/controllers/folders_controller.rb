@@ -66,7 +66,7 @@ class FoldersController < ApplicationController
 
   # GET /folders/:permalink/mobi
   def mobi
-    folder_id = Folder.find_by_permalink(params[:permalink]).id
+    folder_id = current_user.folders.find_by_permalink(params[:permalink]).id
     folder = Folder.find(folder_id)
 
     articles = current_user.articles.left_outer_joins(:folder).where(folder: folder)
@@ -75,7 +75,7 @@ class FoldersController < ApplicationController
     TableOfContents.create("#{ebook.directory}/toc.html", ebook.files)
     ebook_file_name = "Portholes-#{folder.permalink}-#{Date.today.to_s}"
     EbookCreator.mobi(ebook.directory, ebook_file_name)
-    ebook_file = File.join Rails.root, "#{ebook_file_name}.mobi"
+    ebook_file = File.join Rails.root, "tmp/#{ebook_file_name}.mobi"
     File.open(ebook_file, 'r') do |f|
       send_data f.read.force_encoding('BINARY'), :filename => "#{ebook_file_name}.mobi", :type => "application/mobi", :disposition => "attachment"
     end
@@ -84,7 +84,7 @@ class FoldersController < ApplicationController
 
   # GET /folders/:permalink/epub
   def epub
-    folder_id = Folder.find_by_permalink(params[:permalink]).id
+    folder_id = current_user.folders.find_by_permalink(params[:permalink]).id
     folder = Folder.find(folder_id)
 
     articles = current_user.articles.left_outer_joins(:folder).where(folder: folder)
@@ -93,7 +93,7 @@ class FoldersController < ApplicationController
     TableOfContents.create("#{ebook.directory}/toc.html", ebook.files)
     ebook_file_name = "Portholes-#{folder.permalink}-#{Date.today.to_s}"
     EbookCreator.epub(ebook.directory, ebook_file_name)
-    ebook_file = File.join Rails.root, "#{ebook_file_name}.epub"
+    ebook_file = File.join Rails.root, "tmp/#{ebook_file_name}.epub"
     File.open(ebook_file, 'r') do |f|
       send_data f.read.force_encoding('BINARY'), :filename => "#{ebook_file_name}.epub", :type => "application/epub", :disposition => "attachment"
     end
