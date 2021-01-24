@@ -3,9 +3,10 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: .5rem;
+  margin-bottom: ($spacer / 2);
   border: .063rem solid $border-color;
-  border-radius: .25rem;
+  border-radius: 8px;
+  background-color: #fff;
   padding: .7rem;
 
   &.moving-background {
@@ -38,7 +39,7 @@
   }
 
   .link {
-    margin-top: .5rem;
+    margin-top: ($spacer / 2);
   }
 
   // .tag {

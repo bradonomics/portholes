@@ -19,16 +19,12 @@
   @extend %wrap; // in structure.scss (above)
   position: relative;
   flex: 1 0 auto;
+  justify-content: center;
   margin: 0 auto;
-  padding: 11.28rem $spacer 0;
+  padding: 2.5rem $spacer;
 
-  .archive &,
-  .home & {
-    max-width: 82rem;
-  }
-
-  .landing & {
-    padding-top: 6rem;
+  .folder & {
+    justify-content: space-between;
   }
 
 }
@@ -38,6 +34,10 @@
   position: relative;
   width: 100%;
   max-width: 100%;
+  border: .063rem solid $border-color;
+  border-radius: 8px;
+  background-color: #fff;
+  padding: .7rem;
   @include breakpoint(lg) {
     flex: 0 0 30rem;
     max-width: 30rem;
@@ -51,18 +51,10 @@
     max-width: 51rem;
   }
 
-  .archive &,
-  .home & {
-    flex: 0 0 auto;
-    max-width: 100%;
-  }
-
-  .full-width & {
-    margin: 0 auto;
-    @include breakpoint(lg) {
-      flex: 0 0 43rem;
-      max-width: 43rem;
-    }
+  .folder & {
+    border: 0;
+    background-color: transparent;
+    padding: 0;
   }
 
 }

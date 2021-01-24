@@ -22,28 +22,24 @@
 
   nav a {
     display: flex;
+    align-items: center;
     margin-bottom: ($spacer / 2);
+    padding: .313rem 1rem;
     text-decoration: none;
     color: $body-text-color;
     font-weight: bold;
 
-    &:hover {
-      color: $primary-color;
-
-      &::before {
-        color: $primary-color;
-      }
-
-    }
-
+    &:hover,
     &.active {
-      color: $primary-color;
+      border-radius: 4px;
+      background-color: rgba(36, 45, 66, .16);
     }
 
     svg {
       display: inline-block;
-      margin-right: .3rem;
+      margin-right: .6rem;
       width: .8rem;
+      height: .8rem;
     }
 
   }

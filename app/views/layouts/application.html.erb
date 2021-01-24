@@ -10,7 +10,7 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
+  <body<% if params[:controller] == 'folders' && params[:action] == 'show' %> class="folder"<% end %>>
 
     <header class="site-header" itemscope itemtype="https://schema.org/WPHeader">
 
@@ -26,16 +26,27 @@
 
       <nav class="navigation" id="navigation" itemscope itemtype="https://schema.org/SiteNavigationElement">
         <ul class="menu" data-collapsed="true">
-        <% if user_signed_in? %>
-          <% if downloadable_folder? %>
-            <%= content_tag(:li, link_to("Download", "javascript:void(0);", onclick: "modal('download-modal')", itemprop: "url"), class: "menu-item") %>
+          <% if user_signed_in? %>
+            <li class="menu-item">
+              <a href="javascript:void(0);"><%= current_user.email %>
+                <svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"></path></svg>
+              </a>
+              <ul class="sub-menu" data-collapsed="true">
+                <% if current_page?(folder_path("unread")) %>
+                  <li class="menu-item"><a href="javascript:void(0);">Archive All</a></li>
+                <% end %>
+                <% if downloadable_folder? %>
+                  <li class="menu-item"><a href="javascript:void(0);" onclick="modal('download-modal')" itemprop="url">Download</a>
+                <% end %>
+                <%= content_tag(:li, link_to("Settings", edit_user_registration_path, itemprop: "url"), class: "menu-item") %>
+                <%= content_tag(:li, link_to("Sign Out", destroy_user_session_path, method: :delete, itemprop: "url"), class: "menu-item") %>
+              </ul>
+            </li>
+          <% else %>
+            <%= content_tag(:li, link_to("Sign In", new_user_session_path, itemprop: "url"), class: "menu-item") %>
+            <%# content_tag(:li, link_to("Create Account", new_user_registration_path, itemprop: "url"), class: ["menu-item", ("active" if current_page?(new_user_registration_path))]) %>
           <% end %>
-          <%= content_tag(:li, link_to("Account Settings", edit_user_registration_path, itemprop: "url"), class: ["menu-item", ("active" if current_page?(edit_user_registration_path))]) %>
-          <%= content_tag(:li, link_to("Sign Out", destroy_user_session_path, method: :delete, itemprop: "url"), class: "menu-item") %>
-        <% else %>
-          <%= content_tag(:li, link_to("Sign In", new_user_session_path, itemprop: "url"), class: ["menu-item", ("active" if current_page?(new_user_session_path))]) %>
-          <%# content_tag(:li, link_to("Create Account", new_user_registration_path, itemprop: "url"), class: ["menu-item", ("active" if current_page?(new_user_registration_path))]) %>
-        <% end %>
+        </ul>
       </nav>
     </header>
 
@@ -59,7 +70,18 @@
       </div>
     <% end %>
 
-    <footer></footer>
+    <% unless current_page?(folder_path("archive")) %>
+      <div id="download-modal" class="modal">
+        <%= form_with(model: @article, url: articles_path, local: true, html: { class: 'article-add' }) do |form| %>
+          <%= form.fields_for 'article' do |link| %>
+            <%= link.label :link, class: "screen-reader-text" %>
+            <%= link.text_field :link, class: "article-add__input" %>
+          <% end %>
+          <%= hidden_field_tag 'folder', params[:permalink] %>
+          <%= form.submit "Add Article", class: "button primary" %>
+        <% end %>
+      </div>
+    <% end %>
 
   </body>
 

@@ -3,7 +3,7 @@
   <aside class="sidebar">
     <nav class="widget" itemscope itemtype="https://schema.org/SiteNavigationElement">
       <%= link_to folder_path("unread"), class: ("active" if current_page?(folder_path("unread"))), itemprop: "url" do %>
-        <%= inline_svg('home.svg') %>Home
+        <%= inline_svg('home.svg') %>Unread
       <% end %>
       <%= link_to folder_path("archive"), class: ("active" if current_page?(folder_path("archive"))), itemprop: "url" do %>
         <%= inline_svg('archive.svg') %>Archive
@@ -12,17 +12,6 @@
   </aside>
 
   <main class="main">
-
-    <% unless current_page?(folder_path("archive")) %>
-      <%= form_with(model: @article, url: articles_path, local: true, html: { class: 'article-add' }) do |form| %>
-        <%= form.fields_for 'article' do |link| %>
-          <%= link.label :link, class: "screen-reader-text" %>
-          <%= link.text_field :link, class: "article-add__input" %>
-        <% end %>
-        <%= hidden_field_tag 'folder', params[:permalink] %>
-        <%= form.submit "Add Article", class: "button primary" %>
-      <% end %>
-    <% end %>
 
     <div id="articles" data-folder="<%= @folder.id %>">
       <% Array(@articles.order(:position)).each do |article| %>
