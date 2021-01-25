@@ -39,14 +39,14 @@ class ArticlesController < ApplicationController
       # Move the article in position 0 so this article can be in position 0
       first_article = current_user.articles.left_outer_joins(:folder).where(folder: { permalink: params[:permalink] }, position: 0)
       first_article.update(position: 1)
-      folder = Folder.find_by_name(params[:folder])
+      folder = current_user.folders.find_by_name(params[:folder])
       folder_id = folder.id
       @article.folder_id = folder_id
       @article.position = 0
     else
       @article = current_user.articles.new(link: clean_url)
       @article.user = current_user
-      folder = Folder.find_by_name(params[:folder])
+      folder = current_user.folders.find_by_name(params[:folder])
       folder_id = folder.id
       @article.folder_id = folder_id
       @article.title = get_title(clean_url)
