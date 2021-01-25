@@ -192,29 +192,6 @@ form {
     margin: 0 auto;
   }
 
-  &.article-add {
-    margin-bottom: 1.5rem;
-    @include breakpoint(md) {
-      display: flex;
-    }
-
-    .article-add__input {
-      margin-bottom: .5rem;
-      @include breakpoint(md) {
-        margin-bottom: 0;
-      }
-    }
-
-    .button {
-      width: 100%;
-      @include breakpoint(md) {
-        margin-left: $spacer;
-        width: auto;
-      }
-    }
-
-  }
-
   // .required {
   //   color: #b40000;
   // }

@@ -8,6 +8,7 @@ import Turbolinks from 'turbolinks';
 import * as ActiveStorage from '@rails/activestorage';
 import 'channels';
 import Sortable from 'sortablejs';
+require('packs/main');
 require('packs/modal');
 
 Rails.start();

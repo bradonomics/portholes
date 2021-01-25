@@ -34,12 +34,24 @@
     line-height: 1;
   }
 
+  .title {
+    font-size: 1.25rem;
+  }
+
   p {
     margin-bottom: 0;
   }
 
   .link {
+    display: flex;
     margin-top: ($spacer / 2);
+
+    svg {
+      margin-left: .4rem;
+      width: .9rem;
+      height: .9rem;
+    }
+
   }
 
   // .tag {
@@ -59,6 +71,12 @@
       display: flex;
       margin-left: 1rem;
       width: 1rem;
+      color: $body-text-color;
+
+      &:hover {
+        color: lighten($body-text-color, 7%);
+      }
+
     }
 
   }

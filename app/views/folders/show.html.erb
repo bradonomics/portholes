@@ -12,32 +12,32 @@
   </aside>
 
   <main class="main">
-
     <div id="articles" data-folder="<%= @folder.id %>">
       <% Array(@articles.order(:position)).each do |article| %>
         <div class="article" data-id="<%= article.id %>">
           <div class="sort-title-wrapper">
             <% unless current_page?(folder_path("archive")) %>
-              <%= image_tag "sort.svg", class: "sort" %>
+              <div class="sort">
+                <%= inline_svg("sort-solid.svg") %>
+              </div>
             <% end %>
             <div class="title-wrapper">
               <p class="title"><%= article.title %></p>
-              <p class="link text-muted"><small><%= link_to article.link, article.link %></small></p>
+              <p class="link"><%= url_only(article.link) %><%= link_to article.link do %><%= inline_svg('external-link-alt-solid.svg') %><% end %></p>
             </div>
           </div>
           <div class="archive-delete-wrapper">
             <% unless current_page?(folder_path("archive")) %>
-              <%= link_to image_tag("archive.svg"), archive_article_path(article), method: :patch, class: "archive" %>
+              <%= link_to inline_svg("archive.svg"), archive_article_path(article), method: :patch, class: "archive" %>
             <% end %>
             <% unless current_page?(folder_path("unread")) %>
-              <%= link_to image_tag("home.svg"), unarchive_article_path(article), method: :patch, class: "archive" %>
+              <%= link_to inline_svg("home.svg"), unarchive_article_path(article), method: :patch, class: "archive" %>
             <% end %>
-            <%= link_to image_tag("trash.svg"), article_path(article), method: :delete, data: { confirm: "Are you sure you want to permanently delete this article?" }, class: "delete" %>
+            <%= link_to inline_svg("trash.svg"), article_path(article), method: :delete, data: { confirm: "Are you sure you want to permanently delete this article?" }, class: "delete" %>
           </div>
         </div>
       <% end %>
     </div>
-
   </main>
 
 <% else %>

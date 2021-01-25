@@ -23,7 +23,7 @@
   margin: 0 auto;
   padding: 2.5rem $spacer;
 
-  .folder & {
+  .sidebar-content & {
     justify-content: space-between;
   }
 
@@ -34,10 +34,6 @@
   position: relative;
   width: 100%;
   max-width: 100%;
-  border: .063rem solid $border-color;
-  border-radius: 8px;
-  background-color: #fff;
-  padding: .7rem;
   @include breakpoint(lg) {
     flex: 0 0 30rem;
     max-width: 30rem;
@@ -51,7 +47,7 @@
     max-width: 51rem;
   }
 
-  .folder & {
+  .sidebar-content & {
     border: 0;
     background-color: transparent;
     padding: 0;

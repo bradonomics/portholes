@@ -10,7 +10,7 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body<% if params[:controller] == 'folders' && params[:action] == 'show' %> class="folder"<% end %>>
+  <body<% if params[:controller] == 'folders' && params[:action] == 'show' %> class="sidebar-content"<% end %>>
 
     <header class="site-header" itemscope itemtype="https://schema.org/WPHeader">
 
@@ -32,11 +32,12 @@
                 <svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"></path></svg>
               </a>
               <ul class="sub-menu" data-collapsed="true">
+                <li class="menu-item"><a id="add-link" href="/add-link" itemprop="url">Add Link</a></li>
                 <% if current_page?(folder_path("unread")) %>
-                  <li class="menu-item"><a href="javascript:void(0);">Archive All</a></li>
+                  <li class="menu-item"><a href="javascript:void(0);" itemprop="url">Archive All</a></li>
                 <% end %>
                 <% if downloadable_folder? %>
-                  <li class="menu-item"><a href="javascript:void(0);" onclick="modal('download-modal')" itemprop="url">Download</a>
+                  <li class="menu-item"><a id="download" href="/download" itemprop="url">Download</a>
                 <% end %>
                 <%= content_tag(:li, link_to("Settings", edit_user_registration_path, itemprop: "url"), class: "menu-item") %>
                 <%= content_tag(:li, link_to("Sign Out", destroy_user_session_path, method: :delete, itemprop: "url"), class: "menu-item") %>
@@ -56,7 +57,7 @@
     </div>
 
     <% if downloadable_folder? %>
-      <div id="download-modal" class="modal">
+      <div id="download-modal" class="modal download">
         <div class="modal__content">
           <div class="modal__header">
             Download
@@ -70,18 +71,29 @@
       </div>
     <% end %>
 
-    <% unless current_page?(folder_path("archive")) %>
-      <div id="download-modal" class="modal">
-        <%= form_with(model: @article, url: articles_path, local: true, html: { class: 'article-add' }) do |form| %>
-          <%= form.fields_for 'article' do |link| %>
-            <%= link.label :link, class: "screen-reader-text" %>
-            <%= link.text_field :link, class: "article-add__input" %>
+
+    <div id="add-link-modal" class="modal add-link">
+      <div class="modal__content">
+        <div class="modal__header">
+          Add a New Article
+          <span class="modal__close" data-close="true" title="Close">&times;</span>
+        </div>
+        <div class="modal__body">
+          <%= form_with(model: @article, url: articles_path, local: true, html: { class: 'article-add' }) do |form| %>
+            <%= form.fields_for 'article' do |link| %>
+              <%= link.label :link, class: "screen-reader-text" %>
+              <%= link.text_field :link, class: "article-add__input" %>
+            <% end %>
+            <% if downloadable_folder? %>
+              <%= hidden_field_tag 'folder', params[:permalink] %>
+            <% else %>
+              <%= hidden_field_tag 'folder', 'unread' %>
+            <% end %>
+            <%= form.submit "Add Article", class: "button primary" %>
           <% end %>
-          <%= hidden_field_tag 'folder', params[:permalink] %>
-          <%= form.submit "Add Article", class: "button primary" %>
-        <% end %>
+        </div>
       </div>
-    <% end %>
+    </div>
 
   </body>
 
