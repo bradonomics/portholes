@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   get "folder/:permalink" => "folders#show", as: "folder_permalink"
   get "folder/:permalink/mobi" => "folders#mobi", as: "mobi_folder"
   get "folder/:permalink/epub" => "folders#epub", as: "epub_folder"
+  patch "folder/:id/archive-all" => "folders#archive_all", as: "archive_all"
   resources :folders, path: "/folder" do
     member do
       patch :sort

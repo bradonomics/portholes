@@ -5,26 +5,32 @@ class FoldersController < ApplicationController
 
   # GET /folders
   # GET /folders.json
-  def index
-    @folders = Folder.all
-  end
+  # def index
+  #   @folders = Folder.all
+  # end
 
   # GET /folders/:permalink
   # GET /folders/:permalink.json
   def show
     folder_id = Folder.find_by_permalink(params[:permalink]).id
     @folder = Folder.find(folder_id)
-    @articles = current_user.articles.left_outer_joins(:folder).where(folder: { permalink: params[:permalink] })
+
+    if params[:controller] == 'folders' && params[:action] == 'show' && params[:permalink] == 'archive'
+      @articles = current_user.articles.left_outer_joins(:folder).where(folder: { permalink: params[:permalink] }).order(created_at: :desc)
+    else
+      @articles = current_user.articles.left_outer_joins(:folder).where(folder: { permalink: params[:permalink] }).order(position: :asc)
+    end
+
   end
 
   # GET /folders/new
-  def new
-    @folder = Folder.new
-  end
+  # def new
+  #   @folder = Folder.new
+  # end
 
   # GET /folders/:permalink/edit
-  def edit
-  end
+  # def edit
+  # end
 
   # POST /folders
   # POST /folders.json
@@ -62,6 +68,20 @@ class FoldersController < ApplicationController
       current_user.articles.find_by_id(id).update_columns(position: position)
     end
     head :ok
+  end
+
+  # PATCH /articles/:id/archive-all
+  def archive_all
+    folder = Folder.where(name: "archive", user_id: current_user.id).first_or_create
+
+    params[:articles].split(',').map.with_index do |id, position|
+      current_user.articles.find_by_id(id).update_columns(folder_id: folder.id)
+    end
+
+    respond_to do |format|
+      format.js {render inline: "location.reload();" }
+    end
+
   end
 
   # GET /folders/:permalink/mobi

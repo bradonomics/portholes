@@ -2,8 +2,6 @@
   width: 100%;
   @include breakpoint(md) {
     display: flex;
-  }
-  @include breakpoint(lg) {
     width: initial;
   }
 }
@@ -13,6 +11,7 @@
   transition: height .5s ease;
   margin: 0;
   height: 0;
+  padding-left: 0;
   overflow: hidden;
   @include breakpoint(md) {
     display: flex;
@@ -30,37 +29,11 @@
 .menu-item {
   display: block;
   position: relative;
-  // margin-top: 2.2rem;
-  // margin-bottom: 2.2rem;
   margin-bottom: 1.6rem;
   list-style: none;
   @include breakpoint(md) {
     margin-bottom: 0;
   }
-
-  // &:first-child {
-  //   padding-top: 2rem;
-  //   @include breakpoint(md) {
-  //     padding-top: 0;
-  //   }
-  // }
-
-  // &:last-child {
-  //   padding-bottom: 2rem;
-  //   @include breakpoint(md) {
-  //     padding-bottom: 0;
-  //   }
-  // }
-
-  // + .menu-item {
-  //   @include breakpoint(md) {
-  //     margin-left: ($spacer * 3);
-  //   }
-  // }
-
-  // &:last-child {
-  //   margin-bottom: ($spacer * 2);
-  // }
 
   a {
     padding: 1.1rem 0;
@@ -75,16 +48,9 @@
 
   }
 
-  // > a:hover,
-  // &.active > a {
-  //   border-bottom: .188rem solid $primary-color;
-  //   text-decoration: none;
-  //   color: $body-text-color;
-  // }
-
   &:hover .sub-menu {
     @include breakpoint(md) {
-      top: 2.5rem;
+      top: 3.8rem;
       right: 0;
       left: auto;
       opacity: 1;
@@ -94,6 +60,7 @@
 }
 
 .sub-menu {
+  padding-left: 0;
   @include breakpoint(md) {
     position: absolute;
     left: -9999px;
@@ -103,7 +70,6 @@
     border-radius: .125rem;
     box-shadow: 0 1rem 2.813rem rgba(0,0,0,.18);
     background-color: $body-text-color;
-    padding-left: 0;
     text-align: left;
     white-space: nowrap;
   }
@@ -139,8 +105,6 @@
 
     a:hover,
     &.active > a {
-      border-bottom: .188rem solid $primary-color;
-      text-decoration: none;
       color: $body-text-color;
       @include breakpoint(md) {
         opacity: 1;
@@ -183,8 +147,6 @@
   @include breakpoint(md) {
     display: inline-flex;
     visibility: visible;
-    margin-right: .7rem;
-    width: 1rem;
     border: 0;
     background: transparent;
     padding: 0;
@@ -207,6 +169,5 @@
   &.expanded svg {
     transform: rotate(180deg);
   }
-
 
 }

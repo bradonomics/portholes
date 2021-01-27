@@ -13,7 +13,7 @@
 
   <main class="main">
     <div id="articles" data-folder="<%= @folder.id %>">
-      <% Array(@articles.order(:position)).each do |article| %>
+      <% Array(@articles).each do |article| %>
         <div class="article" data-id="<%= article.id %>">
           <div class="sort-title-wrapper">
             <% unless current_page?(folder_path("archive")) %>

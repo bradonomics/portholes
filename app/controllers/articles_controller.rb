@@ -76,13 +76,10 @@ class ArticlesController < ApplicationController
 
   # PATCH /articles/1/archive
   def archive
-    current_user.articles.left_outer_joins(:folder).where(folder: { name: "archive" }, position: 0).update(position: 1)
-    @article.position = 0
     folder = Folder.where(name: "archive", user_id: current_user.id).first_or_create
     @article.folder_id = folder.id
     @article.save!
     redirect_back(fallback_location: folder_path)
-    # redirect_to folder_path # TODO: This needs to redirect_to where the user was not the folder_path
   end
 
   # PATCH /articles/1/unarchive
@@ -93,7 +90,6 @@ class ArticlesController < ApplicationController
     @article.folder_id = folder.id
     @article.save!
     redirect_back(fallback_location: folder_path)
-    # redirect_to folder_path # TODO: This needs to redirect_to where the user was not the folder_path
   end
 
   # DELETE /articles/1

@@ -8,17 +8,7 @@
   padding-right: ($spacer * 2);
   padding-left: ($spacer * 2);
   @include breakpoint(md) {
-    padding-top: .8rem;
-    padding-bottom: .8rem;
-  }
-}
-
-.title-area {
-  @include breakpoint(md) {
-    width: 100%;
-  }
-  @include breakpoint(lg) {
-    width: initial;
+    align-items: center;
   }
 }
 
