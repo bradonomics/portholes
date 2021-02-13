@@ -6,4 +6,8 @@ module FoldersHelper
     end
   end
 
+  def sidebar_folders
+    current_user.folders.where.not(name: ["Unread","Archive"])
+  end
+
 end

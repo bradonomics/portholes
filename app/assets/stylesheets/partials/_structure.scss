@@ -43,8 +43,8 @@
     max-width: 42rem;
   }
   @include breakpoint(xxl) {
-    flex: 0 0 51rem;
-    max-width: 51rem;
+    flex: 0 0 49rem;
+    max-width: 49rem;
   }
 
   .sidebar-content & {
@@ -61,9 +61,9 @@
   width: 100%;
   max-width: 100%;
   @include breakpoint(lg) {
-    flex: 0 0 9rem;
+    flex: 0 0 11rem;
     order: 0;
-    max-width: 9rem;
+    max-width: 11rem;
   }
   // @include breakpoint(xxl) {
   //   flex: 0 0 17rem;
