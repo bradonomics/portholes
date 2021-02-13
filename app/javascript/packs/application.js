@@ -3,43 +3,21 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 
+// BRAD: When you forget how this horseshit works, read this: https://stackoverflow.com/questions/56128114/using-rails-ujs-in-js-modules-rails-6-with-webpacker
+
 import Rails from '@rails/ujs';
+import Sortable from 'sortablejs';
 import Turbolinks from 'turbolinks';
 import * as ActiveStorage from '@rails/activestorage';
 import 'channels';
-import Sortable from 'sortablejs';
-require('packs/main');
 require('packs/navigation');
-require('packs/modal');
+require('packs/modals');
+require('packs/archive-all');
+require('packs/sort-articles');
 
 Rails.start();
 Turbolinks.start();
 ActiveStorage.start();
 
-document.addEventListener('turbolinks:load', () => {
-
-  // Article Sort Function
-  var sortable = Sortable.create(document.getElementById('articles'), {
-    handle: '.sort',
-    animation: 100,
-    ghostClass: 'moving-background',
-
-    onEnd: function (event) { // element dragging ended
-
-      var folderId = document.getElementById('articles').dataset.folder;
-      var articleIds = [];
-      document.querySelectorAll('.article').forEach(item =>
-        articleIds.push(item.dataset.id)
-      );
-
-      Rails.ajax({
-        url: '/folder/' + folderId + '/sort',
-        type: 'patch',
-        data: 'articles=' + articleIds
-      });
-
-    }
-
-  });
-
-});
+// document.addEventListener('turbolinks:load', () => {
+// });
