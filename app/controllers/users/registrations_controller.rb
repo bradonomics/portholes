@@ -3,6 +3,7 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
+  after_action :create_default_folders, only: :create
 
   # GET /resource/sign_up
   # def new
@@ -10,21 +11,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # POST /resource
-  def create
-    super
-
-    # Create default folder "unread"
-    folder_unread = Folder.new
-    folder_unread.name = "unread"
-    folder_unread.user_id = User.find_by_email(params.dig("user", "email")).id
-    folder_unread.save
-
-    # Create default folder "archive"
-    folder_archive = Folder.new
-    folder_archive.name = "archive"
-    folder_archive.user_id = User.find_by_email(params.dig("user", "email")).id
-    folder_archive.save
-  end
+  # def create
+  #   super
+  # end
 
   # GET /resource/edit
   # def edit
@@ -50,7 +39,24 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   super
   # end
 
-  # protected
+  protected
+
+    def create_default_folders
+
+      user_id = User.find_by_email(params.dig("user", "email")).id
+
+      # Create default folder "unread"
+      folder_unread = Folder.new
+      folder_unread.name = "Unread"
+      folder_unread.user_id = user_id
+      folder_unread.save
+
+      # Create default folder "archive"
+      folder_archive = Folder.new
+      folder_archive.name = "Archive"
+      folder_archive.user_id = user_id
+      folder_archive.save
+    end
 
   # If you have extra params to permit, append them to the sanitizer.
   # def configure_sign_up_params

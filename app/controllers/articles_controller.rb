@@ -46,7 +46,7 @@ class ArticlesController < ApplicationController
     else
       @article = current_user.articles.new(link: clean_url)
       @article.user = current_user
-      folder = current_user.folders.find_by_name(params[:folder])
+      folder = Folder.where(name: params[:folder], user_id: current_user.id).first_or_create
       folder_id = folder.id
       @article.folder_id = folder_id
       @article.title = get_title(clean_url)
@@ -76,7 +76,7 @@ class ArticlesController < ApplicationController
 
   # PATCH /articles/1/archive
   def archive
-    folder = Folder.where(name: "archive", user_id: current_user.id).first_or_create
+    folder = Folder.where(name: "Archive", user_id: current_user.id).first_or_create
     @article.folder_id = folder.id
     @article.save!
     redirect_back(fallback_location: folder_path)
@@ -84,9 +84,9 @@ class ArticlesController < ApplicationController
 
   # PATCH /articles/1/unarchive
   def unarchive
-    current_user.articles.left_outer_joins(:folder).where(folder: { name: "unread" }, position: 0).update(position: 1)
+    current_user.articles.left_outer_joins(:folder).where(folder: { name: "Unread" }, position: 0).update(position: 1)
     @article.position = 0
-    folder = Folder.where(name: "unread", user_id: current_user.id).first_or_create
+    folder = Folder.where(name: "Unread", user_id: current_user.id).first_or_create
     @article.folder_id = folder.id
     @article.save!
     redirect_back(fallback_location: folder_path)
@@ -106,7 +106,7 @@ class ArticlesController < ApplicationController
     end
 
     def set_article_from_permalink
-      article = Article.find_by_permalink(params[:id])
+      article = Article.find_by!(permalink: params[:id], user_id: current_user.id)
       article_id = article.id
       @article = current_user.articles.find(article_id)
     end
