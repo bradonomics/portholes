@@ -87,9 +87,9 @@
               <%= link.text_field :link, class: "article-add__input" %>
             <% end %>
             <% if downloadable_folder? %>
-              <%= hidden_field_tag 'folder', params[:permalink] %>
+              <%= hidden_field_tag 'folder', get_name_from_permalink(params[:permalink]) %>
             <% else %>
-              <%= hidden_field_tag 'folder', 'unread' %>
+              <%= hidden_field_tag 'folder', 'Unread' %>
             <% end %>
             <%= form.submit "Add Article", class: "button primary" %>
           <% end %>
