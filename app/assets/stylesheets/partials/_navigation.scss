@@ -48,14 +48,14 @@
 
   }
 
-  &:hover .sub-menu {
-    @include breakpoint(md) {
-      top: 3.8rem;
-      right: 0;
-      left: auto;
-      opacity: 1;
-    }
-  }
+  // &:hover .sub-menu {
+  //   @include breakpoint(md) {
+  //     top: 3.8rem;
+  //     right: 0;
+  //     left: auto;
+  //     opacity: 1;
+  //   }
+  // }
 
 }
 
