@@ -20,16 +20,16 @@ module Hello
       if current_user.articles.find_by_link(clean_url).present?
         @article = current_user.articles.find_by_link(clean_url)
         # Move the article in position 0 so this article can be in position 0
-        first_article = current_user.articles.left_outer_joins(:folder).where(folder: { permalink: "unread" }, position: 0)
+        first_article = current_user.articles.left_outer_joins(:folder).where(folder: { permalink: "Unread" }, position: 0)
         first_article.update(position: 1)
-        folder = Folder.where(name: "unread", user_id: current_user.id).first_or_create
+        folder = Folder.where(name: "Unread", user_id: current_user.id).first_or_create
         folder_id = folder.id
         @article.folder_id = folder_id
         @article.position = 0
       else
         @article = current_user.articles.new(link: clean_url)
         @article.user = current_user
-        folder = Folder.where(name: "unread", user_id: current_user.id).first_or_create
+        folder = Folder.where(name: "Unread", user_id: current_user.id).first_or_create
         folder_id = folder.id
         @article.folder_id = folder_id
         @article.title = get_title(clean_url)
