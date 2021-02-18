@@ -1,3 +1,6 @@
+require 'httparty'
+require 'nokogiri'
+
 class FoldersController < ApplicationController
 
   before_action :authenticate_user!
@@ -20,7 +23,6 @@ class FoldersController < ApplicationController
     else
       @articles = current_user.articles.left_outer_joins(:folder).where(folder: { permalink: params[:permalink] }).order(position: :asc)
     end
-
   end
 
   # GET /folders/new
