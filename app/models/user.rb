@@ -8,6 +8,19 @@ class User < ApplicationRecord
   # :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :confirmable, :lockable, :registerable, :recoverable, :rememberable, :validatable
 
+  validate :password_complexity
+
+  def password_complexity
+    # Regexp from https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
+    if password.length >= 15
+      return if password =~ /^[\s\S]{15,128}$/
+    else
+      return if password =~ /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,128}$/
+    end
+
+    errors.add :password, 'Your password must be at least 15 characters OR at least 8 characters including at least one letter, one number, and one special character'
+  end
+
   scope :not_admins, -> { by_name.where(admin: false) }
 
   def generate_token(column)
