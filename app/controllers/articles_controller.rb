@@ -5,8 +5,8 @@ require 'uri'
 class ArticlesController < ApplicationController
 
   before_action :authenticate_user!
-  before_action :set_article, only: [:show, :edit, :update, :destroy]
-  before_action :set_article_from_permalink, only: [:archive, :unarchive]
+  # before_action :set_article, only: [:show, :edit, :update]
+  before_action :set_article_from_permalink, only: [:archive, :unarchive, :destroy]
 
   # GET /articles
   # GET /articles.json
@@ -101,9 +101,9 @@ class ArticlesController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_article
-      @article = current_user.articles.find(params[:id])
-    end
+    # def set_article
+    #   @article = current_user.articles.find(params[:id])
+    # end
 
     def set_article_from_permalink
       article = Article.find_by!(permalink: params[:id], user_id: current_user.id)
