@@ -68,7 +68,7 @@ class FoldersController < ApplicationController
 
   # PATCH /articles/:id/archive-all
   def archive_all
-    folder = Folder.where(name: "archive", user_id: current_user.id).first_or_create
+    folder = Folder.where(name: "Archive", user_id: current_user.id).first_or_create
 
     params[:articles].split(',').map.with_index do |id, position|
       current_user.articles.find_by_id(id).update_columns(folder_id: folder.id)
