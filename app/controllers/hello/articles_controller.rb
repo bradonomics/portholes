@@ -20,7 +20,7 @@ module Hello
       if current_user.articles.find_by_link(clean_url).present?
         @article = current_user.articles.find_by_link(clean_url)
         # Move the article in position 0 so this article can be in position 0
-        first_article = current_user.articles.left_outer_joins(:folder).where(folder: { permalink: "Unread" }, position: 0)
+        first_article = current_user.articles.left_outer_joins(:folder).where(folder: { permalink: "unread" }, position: 0)
         first_article.update(position: 1)
         folder = Folder.where(name: "Unread", user_id: current_user.id).first_or_create
         folder_id = folder.id
@@ -48,8 +48,8 @@ module Hello
       # Get the title for displaying in the list.
       def get_title(url)
         request = HTTParty.get(url)
-        title = Nokogiri::HTML(request.body).at_css("title").text
-        h1 = Nokogiri::HTML(request.body).at_css("h1").text
+        title = Nokogiri::HTML(request.body).at_css("title").try(:text)
+        h1 = Nokogiri::HTML(request.body).at_css("h1").try(:text)
         if title.present?
           return title
         elsif h1.present?
