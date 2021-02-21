@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.7.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.1.1'
+gem 'rails', '~> 6.1.3'
 # Use Puma as the app server
 gem 'puma', '~> 5.0'
 # Use SCSS for stylesheets
@@ -20,9 +20,11 @@ gem 'jbuilder', '~> 2.7'
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 # Use Devise for authentication
-gem 'devise'
+gem 'devise', '~> 4.7', '>= 4.7.3'
 # Compress that sweet, sweet Javascript
 gem 'uglifier', '~> 4.2'
+# MetaInspector lets you scrape a web page and get its links, images, texts, and meta tags
+gem 'metainspector', '~> 5.11', '>= 5.11.1'
 
 gem 'httparty'
 gem 'nokogiri'
