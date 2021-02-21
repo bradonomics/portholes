@@ -2,6 +2,39 @@ class ApplicationController < ActionController::Base
 
   add_flash_types :success, :warning, :error
 
+  # Get the title for displaying in the list.
+  def get_title(url)
+    page = MetaInspector.new(url)
+    if page.title.present?
+      return page.best_title
+    else
+      return "Document Title Not Found"
+    end
+  rescue HTTParty::Error => error
+    raise FetchError, error.to_s
+  rescue StandardError => error
+    raise FetchError, error.to_s
+  end
+
+  def strip_utm_params(url)
+    uri = URI.parse(url)
+    # `URI.decode_www_form` will error if `uri.query` is blank, so check first.
+    if uri.query.blank?
+      return url
+    else
+      clean_key_vals = URI.decode_www_form(uri.query).reject { |k, _| k.start_with?('utm_' || 'sessionID' || 'ref') }
+      # TODO: How to strip anchor links (#this-thing)?
+      uri.query = URI.encode_www_form(clean_key_vals)
+      url = uri.to_s
+      if url.end_with?("?")
+        url.delete_suffix!("?")
+      end
+      return url
+    end
+  rescue StandardError => error
+    raise FetchError, "#{error}"
+  end
+
   private
 
     def require_signin
