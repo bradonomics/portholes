@@ -39,13 +39,6 @@
   a {
     text-decoration: none;
     color: $body-text-color;
-
-    svg {
-      margin-left: ($spacer / 2);
-      width: .8rem;
-      pointer-events: none;
-    }
-
   }
 
   // &:hover .sub-menu {
@@ -150,11 +143,11 @@
   visibility: hidden;
   @include breakpoint(md) {
     display: inline-flex;
+    align-items: center;
     visibility: visible;
     border: 0;
     background: transparent;
     padding: 0;
-    vertical-align: middle;
     color: $body-text-color;
   }
 
@@ -167,7 +160,9 @@
   svg {
     transform: rotate(0deg);
     transition: transform .2s ease-in-out;
-    width: 1rem;
+    margin-left: ($spacer / 2);
+    width: .8rem;
+    pointer-events: none;
   }
 
   &.expanded svg {
