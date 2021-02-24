@@ -1,13 +1,14 @@
 // Watch for clicks
 document.addEventListener('click', function(event) {
 
-  // add-link in navigation
+  // add-link
   if (event.target == document.getElementById('add-link')) {
     event.preventDefault();
     modal('add-link-modal');
+    document.querySelector('.article-add__input').focus();
   }
 
-  // download in navbar
+  // download in navigation
   if (event.target == document.getElementById('download')) {
     event.preventDefault();
     modal('download-modal');
