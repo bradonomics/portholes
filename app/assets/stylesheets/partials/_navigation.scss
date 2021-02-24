@@ -43,7 +43,7 @@
     svg {
       margin-left: ($spacer / 2);
       width: .8rem;
-      vertical-align: middle;
+      pointer-events: none;
     }
 
   }
