@@ -57,12 +57,12 @@
 
 .sidebar {
   position: relative;
-  order: 2;
+  margin-bottom: ($spacer * 2);
   width: 100%;
   max-width: 100%;
   @include breakpoint(lg) {
     flex: 0 0 11rem;
-    order: 0;
+    margin-bottom: 0;
     max-width: 11rem;
   }
   // @include breakpoint(xxl) {
