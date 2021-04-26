@@ -29,6 +29,9 @@ gem 'metainspector', '~> 5.11', '>= 5.11.1'
 gem 'httparty'
 gem 'nokogiri'
 
+# Pagination
+gem 'pagy', '~> 4.3'
+
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 

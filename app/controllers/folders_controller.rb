@@ -2,6 +2,7 @@ require 'httparty'
 require 'nokogiri'
 
 class FoldersController < ApplicationController
+  include Pagy::Backend
 
   before_action :authenticate_user!
   before_action :set_folder, only: [:edit, :update, :destroy]
@@ -19,9 +20,10 @@ class FoldersController < ApplicationController
     @folder = Folder.find(folder_id)
 
     if params[:controller] == 'folders' && params[:action] == 'show' && params[:permalink] == 'archive'
-      @articles = current_user.articles.left_outer_joins(:folder).where(folder: { permalink: params[:permalink] }).order(created_at: :desc)
+      @pagy, @articles = pagy(current_user.articles.left_outer_joins(:folder).where(folder: { permalink: params[:permalink] }).order(created_at: :desc), items: 20)
     else
-      @articles = current_user.articles.left_outer_joins(:folder).where(folder: { permalink: params[:permalink] }).order(position: :asc)
+      # @pagy, @folders = pagy(Folder.all, items: 20)
+      @pagy, @articles = pagy(current_user.articles.left_outer_joins(:folder).where(folder: { permalink: params[:permalink] }).order(position: :asc), items: 20)
     end
   end
 

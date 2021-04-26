@@ -44,6 +44,7 @@
         </div>
       <% end %>
     </div>
+    <%== pagy_nav(@pagy).html_safe if @pagy.pages > 1 %>
   </main>
 
 <% else %>
