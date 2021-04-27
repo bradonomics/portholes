@@ -16,14 +16,9 @@
     <%= form.text_field :name %>
   </div>
 
-  <div class="field">
-    <%= form.label :permalink %>
-    <%= form.text_field :permalink %>
-  </div>
-
-  <div class="field">
+  <div class="d-none field">
     <%= form.label :user_id %>
-    <%= form.text_field :user_id %>
+    <%= form.hidden_field :user_id %>
   </div>
 
   <div class="actions">

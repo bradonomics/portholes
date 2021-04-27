@@ -1,31 +1,29 @@
-<p id="notice"><%= notice %></p>
+<% if current_user %>
 
-<h1>Folders</h1>
+  <%= render 'sidebar', folder: @folder %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Permalink</th>
-      <th>User</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
+  <main class="main">
+    <h1>Your Folders</h1>
     <% @folders.each do |folder| %>
-      <tr>
-        <td><%= folder.name %></td>
-        <td><%= folder.permalink %></td>
-        <td><%= folder.user_id %></td>
-        <td><%= link_to 'Show', folder %></td>
-        <td><%= link_to 'Edit', edit_folder_path(folder) %></td>
-        <td><%= link_to 'Destroy', folder, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+      <div class="article">
+        <div class="sort-title-wrapper">
+          <div class="folder">
+            <%= inline_svg("folder-open-solid.svg") %>
+          </div>
+          <div class="title-wrapper">
+            <p class="title"><%= folder.name %></p>
+          </div>
+        </div>
+        <div class="archive-delete-wrapper">
+          <%= link_to inline_svg("edit-solid.svg"), edit_folder_path(folder) %>
+          <%= link_to inline_svg("trash.svg"), folder, method: :delete, data: { confirm: "Are you sure you want to permanently delete this folder?" }, class: "delete" %>
+        </div>
+      </div>
     <% end %>
-  </tbody>
-</table>
+  </main>
 
-<br>
-
-<%= link_to 'New Folder', new_folder_path %>
+<% else %>
+  <main class="main">
+    <%= render "layouts/signin" %>
+  </main>
+<% end %>

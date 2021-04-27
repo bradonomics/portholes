@@ -1,9 +1,11 @@
 module FoldersHelper
 
   def downloadable_folder?
-    if params[:controller] == 'folders' && request.path != '/folder/archive'
-      return true
-    end
+    return true if params[:controller] == 'folders' && params[:action] == 'show' && request.path != '/folder/archive'
+  end
+
+  def default_folder?
+    return true if request.path == '/folder/unread' || request.path == '/folder/archive'
   end
 
   def sidebar_folders

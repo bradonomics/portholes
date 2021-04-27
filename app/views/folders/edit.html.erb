@@ -1,6 +1,15 @@
-<h1>Editing Folder</h1>
+<% if current_user %>
 
-<%= render 'form', folder: @folder %>
+  <%= render 'sidebar', folder: @folder %>
 
-<%= link_to 'Show', @folder %> |
-<%= link_to 'Back', folders_path %>
+  <main class="main">
+    <h1>Edit <%= @folder.name %></h1>
+
+    <%= render 'form', folder: @folder %>
+  </main>
+
+<% else %>
+  <main class="main">
+    <%= render "layouts/signin" %>
+  </main>
+<% end %>

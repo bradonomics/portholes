@@ -1,23 +1,17 @@
 <% if current_user %>
 
-  <aside class="sidebar">
-    <nav class="widget" itemscope itemtype="https://schema.org/SiteNavigationElement">
-      <a id="add-link" class="active primary" href="/add-link/" itemprop="url"><%= inline_svg('plus-solid.svg') %>Add Link</a>
-      <%= link_to folder_path("unread"), class: ("active" if current_page?(folder_path("unread"))), itemprop: "url" do %><%= inline_svg('home.svg') %>Unread<% end %>
-      <%= link_to folder_path("archive"), class: ("active" if current_page?(folder_path("archive"))), itemprop: "url" do %><%= inline_svg('archive.svg') %>Archive<% end %>
-      <% Array(sidebar_folders).each do |folder| %>
-        <%= link_to folder_path(folder.permalink), class: ("active" if current_page?(folder_path(folder.permalink))), itemprop: "url" do %><%= inline_svg('folder-open-solid.svg') %><%= folder.name %><% end %>
-      <% end %>
-      <%= form_with(url: folders_path, id: 'new-folder') do |form| %>
-        <%= inline_svg('folder-open-solid.svg') %>
-        <%= form.label :name, class: "screen-reader-text" %>
-        <%= form.text_field :name, placeholder: "Add Folder" %>
-        <%= form.submit %>
-      <% end %>
-    </nav>
-  </aside>
+  <%= render 'sidebar', folder: @folder %>
 
   <main class="main">
+
+    <h1>
+      <%= @folder.name %>
+      <% unless default_folder? %>
+        <%= link_to inline_svg("edit-solid.svg"), edit_folder_path(@folder) %>
+        <%= link_to inline_svg("trash.svg"), @folder, method: :delete, data: { confirm: "Are you sure you want to permanently delete this folder?" }, class: "delete" %>
+      <% end %>
+      </h1>
+
     <div id="articles" data-folder="<%= @folder.id %>">
       <% Array(@articles).each do |article| %>
         <div class="article" data-id="<%= article.id %>">

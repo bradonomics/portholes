@@ -9,9 +9,9 @@ class FoldersController < ApplicationController
 
   # GET /folders
   # GET /folders.json
-  # def index
-  #   @folders = Folder.all
-  # end
+  def index
+    @folders = Folder.where.not(permalink: 'unread').where.not(permalink: 'archive')
+  end
 
   # GET /folders/:permalink
   # GET /folders/:permalink.json
@@ -33,8 +33,9 @@ class FoldersController < ApplicationController
   # end
 
   # GET /folders/:permalink/edit
-  # def edit
-  # end
+  def edit
+    render
+  end
 
   # POST /folders
   # POST /folders.json
@@ -48,17 +49,17 @@ class FoldersController < ApplicationController
 
   # PATCH/PUT /folders/1
   # PATCH/PUT /folders/1.json
-  # def update
-  #   respond_to do |format|
-  #     if @folder.update(folder_params)
-  #       format.html { redirect_to @folder, notice: 'Folder was successfully updated.' }
-  #       format.json { render :show, status: :ok, location: @folder }
-  #     else
-  #       format.html { render :edit }
-  #       format.json { render json: @folder.errors, status: :unprocessable_entity }
-  #     end
-  #   end
-  # end
+  def update
+    respond_to do |format|
+      if @folder.update(folder_params)
+        format.html { redirect_to @folder, notice: 'Folder was successfully updated.' }
+        format.json { render :show, status: :ok, location: @folder }
+      else
+        format.html { render :edit }
+        format.json { render json: @folder.errors, status: :unprocessable_entity }
+      end
+    end
+  end
 
   # PATCH /folders/:permalink/sort
   def sort
@@ -70,14 +71,14 @@ class FoldersController < ApplicationController
 
   # PATCH /articles/:id/archive-all
   def archive_all
-    folder = Folder.where(name: "Archive", user_id: current_user.id).first_or_create
+    archive_folder = Folder.where(name: "Archive", user_id: current_user.id).first_or_create
 
     params[:articles].split(',').map.with_index do |id, position|
-      current_user.articles.find_by_id(id).update_columns(folder_id: folder.id)
+      current_user.articles.find_by_id(id).update_columns(folder_id: archive_folder.id)
     end
 
     respond_to do |format|
-      format.js {render inline: "location.reload();" }
+      format.js { render inline: "location.reload();" }
     end
 
   end
@@ -121,6 +122,12 @@ class FoldersController < ApplicationController
   # DELETE /folders/:permalink
   # DELETE /folders/:permalink.json
   def destroy
+    archive_folder = Folder.where(name: "Archive", user_id: current_user.id).first_or_create
+
+    params[:articles].split(',').map.with_index do |id, position|
+      current_user.articles.find_by_id(id).update_columns(folder_id: archive_folder.id)
+    end
+
     @folder.destroy
     respond_to do |format|
       format.html { redirect_to folders_url, notice: 'Folder was successfully destroyed.' }
@@ -131,7 +138,7 @@ class FoldersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_folder
-      @folder = Folder.find(params[:id])
+      @folder = Folder.find_by_permalink(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
