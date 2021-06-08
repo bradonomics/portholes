@@ -36,9 +36,22 @@
     padding: 1.1rem 0;
   }
 
+  + .menu-item {
+    margin-left: $spacer;
+  }
+
   a {
     text-decoration: none;
     color: $body-text-color;
+  }
+
+  .button {
+    color: #fff;
+  }
+
+  svg {
+    width: .8rem;
+    height: .8rem;
   }
 
   // &:hover .sub-menu {

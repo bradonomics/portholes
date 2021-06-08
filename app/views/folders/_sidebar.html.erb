@@ -1,6 +1,5 @@
 <aside class="sidebar">
   <nav class="widget" itemscope itemtype="https://schema.org/SiteNavigationElement">
-    <a id="add-link" class="active primary" href="/add-link/" itemprop="url"><%= inline_svg('plus-solid.svg') %>Add Link</a>
     <%= link_to folder_path("unread"), class: ("active" if current_page?(folder_path("unread"))), itemprop: "url" do %><%= inline_svg('home.svg') %>Unread<% end %>
     <%= link_to folder_path("archive"), class: ("active" if current_page?(folder_path("archive"))), itemprop: "url" do %><%= inline_svg('archive.svg') %>Archive<% end %>
     <% Array(sidebar_folders).each do |folder| %>
