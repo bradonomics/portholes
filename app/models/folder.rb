@@ -3,7 +3,7 @@ class Folder < ApplicationRecord
   before_save :set_permalink
 
   belongs_to :user
-  has_many :articles, dependent: :destroy
+  has_many :articles
 
   validates :name, presence: true, uniqueness: { scope: :user_id }
 

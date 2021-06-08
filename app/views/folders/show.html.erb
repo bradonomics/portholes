@@ -7,8 +7,10 @@
     <h1>
       <%= @folder.name %>
       <% unless default_folder? %>
-        <%= link_to inline_svg("edit-solid.svg"), edit_folder_path(@folder) %>
-        <%= link_to inline_svg("trash.svg"), @folder, method: :delete, data: { confirm: "Are you sure you want to permanently delete this folder?" }, class: "delete" %>
+        <%= link_to edit_folder_path(@folder) do %>
+          <%= inline_svg("edit-solid.svg") %>
+          Edit
+        <% end %>
       <% end %>
       </h1>
 

@@ -21,8 +21,24 @@
   display: block !important;
 }
 
+.d-flex {
+  display: flex !important;
+}
+
 .d-none {
   display: none !important;
+}
+
+.justify-content-between {
+  justify-content: space-between;
+}
+
+.m-0 {
+  margin: 0 !important;
+}
+
+.mt-1 {
+  margin-top: $spacer !important;
 }
 
 .mb-0 {
