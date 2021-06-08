@@ -83,40 +83,12 @@ class FoldersController < ApplicationController
 
   end
 
-  # GET /folders/:permalink/mobi
-  def mobi
+  # GET /folders/:permalink/download
+  def download
     folder_id = current_user.folders.find_by_permalink(params[:permalink]).id
     folder = Folder.find(folder_id)
-
-    articles = current_user.articles.left_outer_joins(:folder).where(folder: folder)
-    ebook = Download.new(current_user, articles)
-    ebook.download
-    TableOfContents.create("#{ebook.directory}/toc.html", ebook.files)
-    ebook_file_name = "Portholes-#{folder.permalink}-#{Date.today.to_s}"
-    EbookCreator.mobi(ebook.directory, ebook_file_name)
-    ebook_file = File.join Rails.root, "tmp/#{ebook_file_name}.mobi"
-    File.open(ebook_file, 'r') do |f|
-      send_data f.read.force_encoding('BINARY'), :filename => "#{ebook_file_name}.mobi", :type => "application/mobi", :disposition => "attachment"
-    end
-    File.delete(ebook_file)
-  end
-
-  # GET /folders/:permalink/epub
-  def epub
-    folder_id = current_user.folders.find_by_permalink(params[:permalink]).id
-    folder = Folder.find(folder_id)
-
-    articles = current_user.articles.left_outer_joins(:folder).where(folder: folder)
-    ebook = Download.new(current_user, articles)
-    ebook.download
-    TableOfContents.create("#{ebook.directory}/toc.html", ebook.files)
-    ebook_file_name = "Portholes-#{folder.permalink}-#{Date.today.to_s}"
-    EbookCreator.epub(ebook.directory, ebook_file_name)
-    ebook_file = File.join Rails.root, "tmp/#{ebook_file_name}.epub"
-    File.open(ebook_file, 'r') do |f|
-      send_data f.read.force_encoding('BINARY'), :filename => "#{ebook_file_name}.epub", :type => "application/epub", :disposition => "attachment"
-    end
-    File.delete(ebook_file)
+    DownloadJob.perform_later(current_user, folder)
+    redirect_to edit_user_registration_path, notice: 'Your download is processing. You will need to refresh to see it in the downloads section below.'
   end
 
   # DELETE /folders/:permalink
@@ -124,7 +96,7 @@ class FoldersController < ApplicationController
   def destroy
     archive_folder = Folder.where(name: "Archive", user_id: current_user.id).first_or_create
 
-    params[:articles].split(',').map.with_index do |id, position|
+    @folder.articles.split(',').map.with_index do |id, position|
       current_user.articles.find_by_id(id).update_columns(folder_id: archive_folder.id)
     end
 

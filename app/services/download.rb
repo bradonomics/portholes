@@ -2,21 +2,23 @@ require 'uri'
 require 'httparty'
 require 'nokogiri'
 require 'open3'
+require 'fileutils'
 
 class Download
-  attr_reader :directory
-  attr_reader :files
+  attr_reader :user_directory, :full_directory_path, :files
 
   def initialize(user, articles)
     @articles = articles
-    @directory = "tmp/#{user.hello_token}-#{DateTime.now.to_s.parameterize}"
+    # @directory = "tmp/#{user.hello_token}-#{DateTime.now.to_s.parameterize}"
+    @user_directory = "public/downloads/#{user.hello_token}"
+    @full_directory_path = "#{@user_directory}/#{DateTime.now.to_s.parameterize}"
     @files = []
   end
 
   def download
-    unless File.exists?(@directory)
-      Dir.mkdir @directory
-    end
+    Dir.mkdir(@user_directory) unless Dir.exists?(@user_directory)
+    FileUtils.rm_rf("#{@user_directory}/.", secure: true) # Remove previously downloaded files
+    Dir.mkdir(@full_directory_path) unless Dir.exists?(@full_directory_path)
 
     @articles.order(:position).each do |url|
       # Get article HTML
@@ -40,7 +42,7 @@ class Download
       host = URI.parse(url.link).host
 
       # Create a new file in `directory` with article contents
-      ArticleWriter.write("#{@directory}/#{file_name}.html", article, title, host)
+      ArticleWriter.write("#{@full_directory_path}/#{file_name}.html", article, title, host)
     end
 
   end

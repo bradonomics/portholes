@@ -35,7 +35,7 @@
               </a>
               <ul class="sub-menu" data-collapsed="true">
                 <% if downloadable_folder? %>
-                  <li class="menu-item"><a id="download" href="/download/" itemprop="url">Download</a>
+                  <li class="menu-item"><%= link_to("Download", download_folder_path, itemprop: "url") %></li>
                 <% end %>
                 <% if current_page?(folder_path("unread")) %>
                   <li class="menu-item"><a id="archive-all" href="/archive-all/" itemprop="url">Archive All</a></li>
@@ -65,8 +65,8 @@
             <span class="modal__close" data-close="true" title="Close">&times;</span>
           </div>
           <div class="modal__body">
-            <%= link_to("Mobi", mobi_folder_path, itemprop: "url", class: "button", target: :_blank) %>
-            <%= link_to("ePub", epub_folder_path, itemprop: "url", class: "button", target: :_blank) %>
+            <%#= link_to("Mobi", mobi_folder_path, itemprop: "url", class: "button", target: :_blank) %>
+            <%#= link_to("ePub", epub_folder_path, itemprop: "url", class: "button", target: :_blank) %>
           </div>
         </div>
       </div>
