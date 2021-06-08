@@ -96,8 +96,10 @@ class FoldersController < ApplicationController
   def destroy
     archive_folder = Folder.where(name: "Archive", user_id: current_user.id).first_or_create
 
-    @folder.articles.split(',').map.with_index do |id, position|
-      current_user.articles.find_by_id(id).update_columns(folder_id: archive_folder.id)
+    unless @folder.articles.empty?
+      @folder.articles.split(',').map.with_index do |id, position|
+        current_user.articles.find_by_id(id).update_columns(folder_id: archive_folder.id)
+      end
     end
 
     @folder.destroy
