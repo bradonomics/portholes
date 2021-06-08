@@ -104,7 +104,7 @@ class FoldersController < ApplicationController
 
     @folder.destroy
     respond_to do |format|
-      format.html { redirect_to folders_url, notice: 'Folder was successfully destroyed.' }
+      format.html { redirect_to folder_path("unread"), notice: "The folder \"#{@folder.name}\" has been deleted." }
       format.json { head :no_content }
     end
   end
