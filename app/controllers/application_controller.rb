@@ -17,20 +17,25 @@ class ApplicationController < ActionController::Base
   end
 
   def strip_utm_params(url)
-    uri = URI.parse(url)
-    # `URI.decode_www_form` will error if `uri.query` is blank, so check first.
-    if uri.query.blank?
-      return url
-    else
-      clean_key_vals = URI.decode_www_form(uri.query).reject { |k, _| k.start_with?('utm_' || 'sessionID' || 'ref') }
-      # TODO: How to strip anchor links (#this-thing)?
-      uri.query = URI.encode_www_form(clean_key_vals)
-      url = uri.to_s
-      if url.end_with?("?")
-        url.delete_suffix!("?")
-      end
-      return url
+    # The below is from the `url=(u)` method in https://github.com/lobsters/lobsters/blob/master/app/models/story.rb
+    uri = url.to_s
+    if (uri.match(/\A([^\?]+)\?(.+)\z/))
+      params = uri.split(/[&\?]/)
+      uri = params.shift() # remove the first item in the params array
+      params.reject! {|p| p.match(/^utm_(source|medium|campaign|term|content)=|^sk=|^fbclid=/) }
+      url = uri << (params.any?? "?" << params.join("&") : "")
     end
+
+    # The below is from: https://news.ycombinator.com/item?id=27048598
+    # startswith: 'utm_', 'ga_', 'hmb_', 'ic_', 'fb_', 'pd_rd', 'ref_', 'share_', 'client_', 'service_'
+    # or has: '$/ref@amazon.', '.tsrc', 'ICID', '_xtd', '_encoding@amazon.', '_hsenc', '_openstat', 'ab', 'action_object_map', 'action_ref_map', 'action_type_map', 'amp', 'arc404', 'affil', 'affiliate', 'app_id', 'awc', 'bfsplash', 'bftwuk', 'campaign', 'camp', 'cip', 'cmp', 'CMP', 'cmpid', 'curator', 'cvid@bing.com', 'efg', 'ei@google.', 'fbclid', 'fbplay', 'feature@youtube.com', 'feedName', 'feedType', 'form@bing.com', 'forYou', 'fsrc', 'ftcamp', 'ga_campaign', 'ga_content', 'ga_medium', 'ga_place', 'ga_source', 'ga_term', 'gi', 'gclid@youtube.com', 'gs_l', 'gws_rd@google.', 'igshid', 'instanceId', 'instanceid', 'kw@youtube.com', 'maca', 'mbid', 'mkt_tok', 'mod', 'ncid', 'ocid', 'offer', 'origin', 'partner','pq@bing.com', 'print', 'printable', 'psc@amazon.', 'qs@bing.com', 'rebelltitem', 'ref', 'referer', 'referrer', 'rss', 'ru', 'sc@bing.com', 'scrolla', 'sei@google.', 'sh', 'share', 'sk@bing.com', 'source', 'sp@bing.com', 'sref', 'srnd', 'supported_service_name', 'tag', 'taid', 'time_continue', 'tsrc', 'twsrc', 'twcamp', 'twclid', 'tweetembed', 'twterm', 'twgr', 'utm', 'ved@google.', 'via', 'xid', 'yclid', 'yptr'
+
+
+    if url.end_with?("?")
+      url.delete_suffix!("?")
+    end
+
+    return url
   rescue StandardError => error
     raise FetchError, "#{error}"
   end
