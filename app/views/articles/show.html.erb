@@ -1,29 +1,15 @@
-<p id="notice"><%= notice %></p>
+<article class="page" itemscope itemtype="https://schema.org/CreativeWork">
 
-<p>
-  <strong>Title:</strong>
-  <%= @article.title %>
-</p>
+  <header class="page__header">
+    <h1 class="page__title" itemprop="headline"><%= @article.title %></h1>
+    <p class="page__meta">
+      <span>Original Link: <%= link_to @article.link, @article.link %></span>
+      <span><%= link_to "Delete This Article?", article_path(@article), method: :delete, data: { confirm: "Are you sure you want to permanently delete this article?" }, class: "delete" %></span>
+    </p>
+  </header>
 
-<p>
-  <strong>Link:</strong>
-  <%= @article.link %>
-</p>
+  <div class="page__content" itemprop="text">
+    <%= sanitize @article.body %>
+  </div>
 
-<p>
-  <strong>Position:</strong>
-  <%= @article.position %>
-</p>
-
-<p>
-  <strong>User:</strong>
-  <%= @article.user_id %>
-</p>
-
-<p>
-  <strong>Folder:</strong>
-  <%= @article.folder_id %>
-</p>
-
-<%= link_to 'Edit', edit_article_path(@article) %> |
-<%= link_to 'Back', articles_path %>
+</article>

@@ -6,7 +6,7 @@ class ArticlesController < ApplicationController
 
   before_action :authenticate_user!
   # before_action :set_article, only: [:show, :edit, :update]
-  before_action :set_article_from_permalink, only: [:archive, :unarchive, :destroy]
+  before_action :set_article_from_permalink, only: [:show, :archive, :unarchive, :destroy]
 
   # GET /articles
   # GET /articles.json
@@ -16,8 +16,9 @@ class ArticlesController < ApplicationController
 
   # GET /articles/1
   # GET /articles/1.json
-  # def show
-  # end
+  def show
+    @folder = Folder.find(@article.folder_id)
+  end
 
   # GET /articles/new
   # def new
@@ -40,15 +41,13 @@ class ArticlesController < ApplicationController
       first_article = current_user.articles.left_outer_joins(:folder).where(folder: { permalink: params[:permalink] }, position: 0)
       first_article.update(position: 1)
       folder = current_user.folders.find_by_name(params[:folder])
-      folder_id = folder.id
-      @article.folder_id = folder_id
+      @article.folder_id = folder.id
       @article.position = 0
     else
       @article = current_user.articles.new(link: clean_url)
       @article.user = current_user
       folder = Folder.where(name: params[:folder], user_id: current_user.id).first_or_create
-      folder_id = folder.id
-      @article.folder_id = folder_id
+      @article.folder_id = folder.id
       @article.title = get_title(clean_url)
       @article.body = ArticleFetch.download(@article)
       @article.position = current_user.articles.count
