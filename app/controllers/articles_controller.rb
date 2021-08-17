@@ -50,6 +50,7 @@ class ArticlesController < ApplicationController
       folder_id = folder.id
       @article.folder_id = folder_id
       @article.title = get_title(clean_url)
+      @article.body = ArticleFetch.download(@article)
       @article.position = current_user.articles.count
     end
     @article.save!
