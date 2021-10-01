@@ -24,6 +24,8 @@ class Download
       # Get article HTML
       request = HTTParty.get(url.link)
       document = Nokogiri::HTML(request.body)
+      # Get article hostname (domain name)
+      host = URI.parse(url.link).host
 
       # Send document to Readability for parsing
       article, article_status = Open3.capture2("node lib/readability/content.js '#{url.link}'", stdin_data: document)
@@ -32,14 +34,16 @@ class Download
       # next unless article_status == 0
       document.to_html(:encoding => 'UTF-8')
       document.to_s
-      article = ArticleParser.parse(document) unless article_status == 0
+      article = ArticleParser.download(document) unless article_status == 0
 
       # Add title and file_name to files array
       title = url.title
       file_name = title.parameterize
       @files.push([url.title, file_name])
 
-      host = URI.parse(url.link).host
+      # Download images and replace image src in article
+      Dir.mkdir("#{@full_directory_path}/#{file_name}") unless Dir.exists?("#{@full_directory_path}/#{file_name}")
+      article = ArticleParser.images(@full_directory_path, file_name, article)
 
       # Create a new file in `directory` with article contents
       ArticleWriter.write("#{@full_directory_path}/#{file_name}.html", article, title, host)

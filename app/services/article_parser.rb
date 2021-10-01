@@ -1,8 +1,10 @@
 require 'nokogiri'
+require 'down'
+require 'fileutils'
 
 module ArticleParser
 
-  def self.parse(document)
+  def self.download(document)
 
     # TODO: Could we use the print version should a site have one? Try World Hum.
 
@@ -27,6 +29,22 @@ module ArticleParser
       article.xpath("//*[@*[contains(., '#{line}')]]").each do |node|
         node.remove
       end
+    end
+
+    return article
+
+  end
+
+  def self.images(full_directory_path, file_name, document)
+
+    # Tell nokogiri this is not a whole document
+    article = Nokogiri::HTML::DocumentFragment.parse(document)
+
+    # Replace the src for downloaded images
+    article.css('img').each do |img|
+      file = Down.download(img.attr('src'))
+      FileUtils.mv(file.path, "#{full_directory_path}/#{file_name}/#{file.original_filename}")
+      img.attributes['src'].value = "#{file_name}/#{file.original_filename}"
     end
 
     return article

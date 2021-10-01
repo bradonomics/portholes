@@ -18,7 +18,7 @@ module ArticleFetch
     # If Readability fails, use home-built parser
     document.to_html(:encoding => 'UTF-8')
     document.to_s
-    article = ArticleParser.parse(document) unless article_status == 0
+    article = ArticleParser.download(document) unless article_status == 0
 
     article.to_s
 

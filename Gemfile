@@ -25,6 +25,8 @@ gem 'devise', '~> 4.8'
 gem 'uglifier', '~> 4.2'
 # MetaInspector lets you scrape a web page and get its links, images, texts, and meta tags
 gem 'metainspector', '~> 5.11', '>= 5.11.1'
+# Downloading utility
+gem 'down'
 
 gem 'httparty'
 gem 'nokogiri'
