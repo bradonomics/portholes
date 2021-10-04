@@ -45,7 +45,7 @@ class ApplicationController < ActionController::Base
     def require_signin
       unless current_user
         session[:intended_url] = request.url
-        redirect_to signin_path, error: "You must sign in to continue."
+        redirect_to signin_path, error: "You must log in to continue."
       end
     end
 

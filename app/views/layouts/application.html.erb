@@ -40,11 +40,11 @@
                   <li class="menu-item"><a id="archive-all" href="/archive-all/" itemprop="url">Archive All</a></li>
                 <% end %>
                 <%= content_tag(:li, link_to("Settings", edit_user_registration_path, itemprop: "url"), class: "menu-item") %>
-                <%= content_tag(:li, link_to("Sign Out", destroy_user_session_path, method: :delete, itemprop: "url"), class: "menu-item") %>
+                <%= content_tag(:li, link_to("Log Out", destroy_user_session_path, method: :delete, itemprop: "url"), class: "menu-item") %>
               </ul>
             </li>
           <% else %>
-            <%= content_tag(:li, link_to("Sign In", new_user_session_path, itemprop: "url"), class: "menu-item") %>
+            <%= content_tag(:li, link_to("Log In", new_user_session_path, itemprop: "url"), class: "menu-item") %>
             <%= content_tag(:li, link_to("Create Account", new_user_registration_path, itemprop: "url"), class: "menu-item") %>
           <% end %>
         </ul>
