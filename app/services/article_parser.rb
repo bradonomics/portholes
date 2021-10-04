@@ -1,6 +1,7 @@
 require 'nokogiri'
 require 'down'
 require 'fileutils'
+require 'rack/mime'
 
 module ArticleParser
 
@@ -40,11 +41,23 @@ module ArticleParser
     # Tell nokogiri this is not a whole document
     article = Nokogiri::HTML::DocumentFragment.parse(document)
 
+    count = 1
     # Replace the src for downloaded images
     article.css('img').each do |img|
-      file = Down.download(img.attr('src'))
-      FileUtils.mv(file.path, "#{full_directory_path}/#{file_name}/#{file.original_filename}")
-      img.attributes['src'].value = "#{file_name}/#{file.original_filename}"
+      # Make sure the image isn't a `data:image` as it will error on download
+      next if img.attr('src').include? 'data:image/svg+xml'
+      # Download the image with Down gem
+      image = Down.download(img.attr('src'))
+      # Get the file extention
+      image_type = Rack::Mime::MIME_TYPES.invert[image.content_type]
+      # Rename the file for those idiot who like to string URLs together and break the internet
+      image_name = "#{count.to_words}" + "#{image_type}"
+      # Move the file to the appropriate directory
+      FileUtils.mv(image.path, "#{full_directory_path}/#{file_name}/#{image_name}")
+      # Update the `img` tag in the article body
+      img.attributes['src'].value = "#{file_name}/#{image_name}"
+
+      count += 1
     end
 
     return article

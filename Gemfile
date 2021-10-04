@@ -27,6 +27,8 @@ gem 'uglifier', '~> 4.2'
 gem 'metainspector', '~> 5.11', '>= 5.11.1'
 # Downloading utility
 gem 'down'
+# Spell out numbers
+gem 'numbers_and_words'
 
 gem 'httparty'
 gem 'nokogiri'
