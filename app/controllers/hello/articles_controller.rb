@@ -15,6 +15,11 @@ module Hello
 
     def create
       current_user = User.find_by_hello_token(params[:hello_token])
+      # TODO: find_by_hello_token should be changed. Something more secure like
+      # current_user = User.find_by_session_id(session[:user_id])
+      # Except find_by_session_id doesn't work if they're
+      # not logged in. So a redirect to login would be needed.
+
       clean_url = strip_utm_params(params[:link])
       # if link is already in database for this user, move it to home
       if current_user.articles.find_by_link(clean_url).present?

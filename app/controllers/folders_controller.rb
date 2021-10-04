@@ -85,24 +85,9 @@ class FoldersController < ApplicationController
 
   # GET /folders/:permalink/download
   def download
-    # folder_id = current_user.folders.find_by_permalink(params[:permalink]).id
     folder = Folder.find(current_user.folders.find_by_permalink(params[:permalink]).id)
-
-
-    # DownloadJob.perform_later(current_user, folder)
-
-
-    articles = current_user.articles.left_outer_joins(:folder).where(folder: folder)
-    ebook = Download.new(current_user, articles)
-    ebook.download
-    TableOfContents.create("#{ebook.full_directory_path}/toc.html", ebook.files)
-    ebook_file_name = "Portholes-#{folder.permalink}-#{Date.today.to_s}"
-    EbookCreator.mobi(ebook.user_directory, ebook.full_directory_path, ebook_file_name)
-
-
-
-
-    redirect_to edit_user_registration_path, notice: 'Your download is processing. You will need to refresh to see it in the downloads section below.'
+    DownloadJob.perform_later(current_user, folder)
+    redirect_to edit_user_registration_path, notice: 'Your download is processing. You will need to refresh this page to see it in the downloads section below.'
   end
 
   # DELETE /folders/:permalink

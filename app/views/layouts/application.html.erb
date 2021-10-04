@@ -16,11 +16,7 @@
     <header class="site-header" itemscope itemtype="https://schema.org/WPHeader">
 
       <div class="title-area">
-        <% if user_signed_in? %>
-          <p class="site-title" itemprop="headline"><%= link_to "Portholes", folder_path("unread") %></p>
-        <% else %>
-          <p class="site-title" itemprop="headline"><%= link_to "Portholes", folder_path("unread") %></p>
-        <% end %>
+        <p class="site-title" itemprop="headline"><%= link_to "Portholes", folder_path("unread") %></p>
       </div>
 
       <button class="responsive-menu-icon" aria-expanded="false" aria-controls="navigation">Menu</button>
@@ -29,7 +25,7 @@
         <ul class="menu" data-collapsed="true">
           <% if user_signed_in? %>
             <li class="menu-item">
-              <a id="add-link" class="button primary small" href="/add-link/" itemprop="url"><%= inline_svg('plus-solid.svg') %>Add Link</a>
+              <a id="add-link" class="button primary small" href="/add-link/"><%= inline_svg('plus-solid.svg') %>Add Link</a>
             </li>
             <li class="menu-item">
               <a href="/navigation/" class="sub-menu-toggle" aria-expanded="false">
