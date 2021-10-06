@@ -41,10 +41,15 @@
     line-height: 1;
   }
 
-  .title {
+  .title a {
     text-decoration: none;
     color: $body-text-color;
     font-size: 1.25rem;
+
+    &:hover {
+      color: $primary-color;
+    }
+
   }
 
   p {
@@ -83,11 +88,28 @@
       color: $body-text-color;
 
       &:hover {
-        color: lighten($body-text-color, 7%);
+        color: lighten($body-text-color, 10%);
       }
 
     }
 
+  }
+
+}
+
+.page {
+  margin: 0 auto;
+  max-width: 37.5rem;
+}
+
+.page__title {
+  display: flex;
+  margin-top: ($spacer / 2);
+
+  svg {
+    margin-left: .4rem;
+    width: .9rem;
+    height: .9rem;
   }
 
 }

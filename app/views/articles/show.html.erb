@@ -1,15 +1,21 @@
 <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
 
   <header class="page__header">
-    <h1 class="page__title" itemprop="headline"><%= @article.title %></h1>
-    <p class="page__meta">
-      <span>Original Link: <%= link_to @article.link, @article.link %></span>
-      <span><%= link_to "Delete This Article?", article_path(@article), method: :delete, data: { confirm: "Are you sure you want to permanently delete this article?" }, class: "delete" %></span>
-    </p>
+    <h1 class="page__title" itemprop="headline"><%= @article.title %>
+      <%= link_to @article.link do %><%= inline_svg('external-link-alt-solid.svg') %><% end %>
+    </h1>
   </header>
 
   <div class="page__content" itemprop="text">
     <%= sanitize @article.body %>
   </div>
+
+  <footer class="page__footer">
+    <hr>
+    <h2 class="color-danger">Danger Area</h2>
+    <p class="page__meta">
+      <span><%= link_to "Delete This Article?", article_path(@article), method: :delete, data: { confirm: "Are you sure you want to permanently delete this article?" }, class: "delete" %></span>
+    </p>
+  </footer>
 
 </article>

@@ -24,7 +24,7 @@
               </div>
             <% end %>
             <div class="title-wrapper">
-              <p class="title"><%= article.title %></p>
+              <p class="title"><%= link_to article.title, article_path(article.permalink) %></p>
               <p class="link"><%= url_only(article.link) %><%= link_to article.link do %><%= inline_svg('external-link-alt-solid.svg') %><% end %></p>
             </div>
           </div>
