@@ -4,12 +4,22 @@ var head = document.head || document.getElementsByTagName('head')[0];
 var css = "\
   .portholes-notice {\
     position: fixed;\
-    top: 15px;\
-    left: 15px;\
+    top: 0;\
+    left: 0;\
     z-index: 99999999;\
-    background-color: red;\
+    background-color: white;\
     width: 100%;\
-    max-width: 350px;\
+    display: flex;\
+    justify-content: space-between;\
+    font-family: sans-serif;\
+    padding: 15px;\
+  }\
+  .portholes-notice p {\
+    margin: 0;\
+    font-size: 22px;\
+  }\
+  #portholes-close:hover {\
+    cursor: pointer;\
   }\
 ";
 
@@ -20,18 +30,18 @@ style.appendChild(document.createTextNode(css));
 // Add HTML block
 div = document.createElement('div');
 div.setAttribute('class', 'portholes-notice');
+div.innerHTML = '\
+  <p>Portholes</p>\
+  <p id="portholes-action">Saving</p>\
+  <p id="portholes-close">&#10799;</p>\
+';
 
 function transferComplete() {
-  div.innerHTML = "\
-    <p>This page has been saved to Portholes.</p>\
-  ";
+  document.getElementById('portholes-action').innerHTML = 'Saved';
 }
 
 function transferFailed() {
-  div.innerHTML = "\
-    <p>There was an error saving this page.</p>\
-    <p>You should visit the Portholes app and try adding it manually.</p>\
-  ";
+  document.getElementById('portholes-action').innerHTML = 'Error — Article NOT Saved';
 }
 
 // Add text
@@ -50,3 +60,8 @@ if (body) try {
 } catch(e) {
   alert('Something went wrong.');
 }
+
+// Remove all of this nonsense if they click the X
+document.getElementById('portholes-close').addEventListener('click', function() {
+  document.querySelector('.portholes-notice').remove();
+}​);​
