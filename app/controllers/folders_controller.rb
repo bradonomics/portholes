@@ -94,10 +94,11 @@ class FoldersController < ApplicationController
   # DELETE /folders/:permalink.json
   def destroy
     archive_folder = Folder.where(name: "Archive", user_id: current_user.id).first_or_create
+    articles_in_folder = current_user.articles.where(folder: @folder)
 
-    unless @folder.articles.empty?
-      @folder.articles.split(',').map.with_index do |id, position|
-        current_user.articles.find_by_id(id).update_columns(folder_id: archive_folder.id)
+    unless articles_in_folder.empty?
+      articles_in_folder.map do |article|
+        current_user.articles.find(article.id).update_columns(folder_id: archive_folder.id)
       end
     end
 
