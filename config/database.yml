@@ -21,11 +21,13 @@ test:
   database: db/test.sqlite3
 
 production:
-  adapter: postgresql
-  encoding: unicode
-  # For details on connection pooling, see Rails configuration guide
-  # https://guides.rubyonrails.org/configuring.html#database-pooling
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  database: portholes_production
-  username: <%= ENV['PORTHOLES_DATABASE_USERNAME'] %>
-  password: <%= ENV['PORTHOLES_DATABASE_PASSWORD'] %>
+  <<: *default
+  database: db/production.sqlite3
+  # adapter: postgresql
+  # encoding: unicode
+  # # For details on connection pooling, see Rails configuration guide
+  # # https://guides.rubyonrails.org/configuring.html#database-pooling
+  # pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  # database: portholes_production
+  # username: <%= ENV['PORTHOLES_DATABASE_USERNAME'] %>
+  # password: <%= ENV['PORTHOLES_DATABASE_PASSWORD'] %>
