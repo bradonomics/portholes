@@ -14,7 +14,7 @@ module UsersHelper
   def ebook_download
     array = Dir["#{Rails.public_path}/downloads/#{current_user.hello_token}/*"]
     file_path = array[0].split('/').last
-    return "#{root_url}/downloads/#{current_user.hello_token}/#{file_path}"
+    return "#{root_url}downloads/#{current_user.hello_token}/#{file_path}"
   end
 
 end
