@@ -18,7 +18,7 @@ body {
 }
 
 p {
-  margin-top: 0;
+  margin-top:  ($spacer * 2);
   margin-bottom: ($spacer * 2);
   word-break: break-word;
 }
@@ -36,6 +36,12 @@ a {
     color: lighten($primary-color, 7%);
   }
 
+}
+
+img {
+  margin-bottom: 2rem;
+  max-width: 100%;
+  height: auto;
 }
 
 ::-moz-selection {

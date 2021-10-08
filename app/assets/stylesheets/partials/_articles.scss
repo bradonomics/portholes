@@ -41,24 +41,27 @@
     line-height: 1;
   }
 
-  .title a {
-    text-decoration: none;
-    color: $body-text-color;
-    font-size: 1.25rem;
+  .title {
+    margin-top: 0;
+    margin-bottom: 0;
 
-    &:hover {
-      color: $primary-color;
+    a {
+      text-decoration: none;
+      color: $body-text-color;
+      font-size: 1.25rem;
+
+      &:hover {
+        color: $primary-color;
+      }
+
     }
 
-  }
-
-  p {
-    margin-bottom: 0;
   }
 
   .link {
     display: flex;
     margin-top: ($spacer / 2);
+    margin-bottom: 0;
 
     svg {
       margin-left: .4rem;
