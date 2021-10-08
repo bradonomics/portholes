@@ -2,6 +2,7 @@ class Folder < ApplicationRecord
 
   before_save :set_permalink
 
+  before_destroy :destroy_articles
   belongs_to :user
   has_many :articles
 
@@ -15,6 +16,10 @@ class Folder < ApplicationRecord
 
     def set_permalink
       self.permalink = name.parameterize
+    end
+
+    def destroy_articles
+      self.articles.destroy_all
     end
 
 end

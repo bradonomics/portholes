@@ -2,7 +2,7 @@ class User < ApplicationRecord
   before_create { generate_token(:hello_token) }
 
   has_many :folders, dependent: :destroy
-  has_many :articles, through: :folders, dependent: :destroy
+  has_many :articles, through: :folders
 
   # Include default devise modules. Others available are:
   # :timeoutable, :trackable and :omniauthable
