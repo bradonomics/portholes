@@ -16,6 +16,7 @@ class Download
   end
 
   def download
+    Dir.mkdir("public/downloads") unless Dir.exists?("public/downloads")
     Dir.mkdir(@user_directory) unless Dir.exists?(@user_directory)
     FileUtils.rm_rf("#{@user_directory}/.", secure: true) # Remove previously downloaded files
     Dir.mkdir(@full_directory_path) unless Dir.exists?(@full_directory_path)
