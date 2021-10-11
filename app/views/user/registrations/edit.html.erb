@@ -35,7 +35,7 @@
 
       <div class="field">
         <%= f.label :email %>
-        <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+        <%= f.email_field :email, autocomplete: "email" %>
       </div>
 
       <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
@@ -75,5 +75,5 @@
     <p><%= link_to "Delete Account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: "button" %></p>
   </div>
 
-  <%= link_to "Back", :back %>
+  <%= link_to "Back Home", :back %>
 </main>
