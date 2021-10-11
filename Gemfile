@@ -42,10 +42,15 @@ gem 'pagy', '~> 4.10.1'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
 
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3', '~> 1.4.2'
+group :production do
+  # Use PostgreSQL as the database for Active Record
+  gem 'pg', '~> 1.2', '>= 1.2.3'
+end
 
 group :development, :test do
+  # Use sqlite3 as the database for Active Record
+  gem 'sqlite3', '~> 1.4.2'
+
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 end
