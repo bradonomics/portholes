@@ -8,6 +8,10 @@ class DownloadJob < ApplicationJob
     ebook.download
     TableOfContents.create("#{ebook.full_directory_path}/toc.html", ebook.files)
     ebook_file_name = "Portholes-#{folder.permalink}-#{Date.today.to_s}"
-    EbookCreator.mobi(ebook.user_directory, ebook.full_directory_path, ebook_file_name)
+    if current_user.ebook_preference == 'epub'
+      EbookCreator.epub(ebook.user_directory, ebook.full_directory_path, ebook_file_name)
+    else
+      EbookCreator.mobi(ebook.user_directory, ebook.full_directory_path, ebook_file_name)
+    end
   end
 end
