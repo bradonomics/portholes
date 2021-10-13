@@ -20,10 +20,10 @@ class FoldersController < ApplicationController
     @folder = Folder.find(folder_id)
 
     if params[:controller] == 'folders' && params[:action] == 'show' && params[:permalink] == 'archive'
-      @pagy, @articles = pagy(current_user.articles.left_outer_joins(:folder).where(folder: { permalink: params[:permalink] }).order(created_at: :desc), items: 20)
+      @pagy, @articles = pagy(current_user.articles.left_outer_joins(:folder).where(folder: { permalink: params[:permalink] }).order(created_at: :desc), items: 50)
     else
-      # @pagy, @folders = pagy(Folder.all, items: 20)
-      @pagy, @articles = pagy(current_user.articles.left_outer_joins(:folder).where(folder: { permalink: params[:permalink] }).order(position: :asc), items: 20)
+      # @pagy, @folders = pagy(Folder.all, items: 50)
+      @pagy, @articles = pagy(current_user.articles.left_outer_joins(:folder).where(folder: { permalink: params[:permalink] }).order(position: :asc), items: 50)
     end
   end
 

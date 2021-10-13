@@ -21,7 +21,7 @@ class Download
     FileUtils.rm_rf("#{@user_directory}/.", secure: true) # Remove previously downloaded files
     Dir.mkdir(@full_directory_path) unless Dir.exists?(@full_directory_path)
 
-    @articles.order(:position).each do |url|
+    @articles.order(:position).first(50).each do |url|
       # Get article HTML
       request = HTTParty.get(url.link)
       document = Nokogiri::HTML(request.body)
