@@ -5,8 +5,8 @@ require 'uri'
 class ArticlesController < ApplicationController
 
   before_action :authenticate_user!
-  # before_action :set_article, only: [:show, :edit, :update]
   before_action :set_article_from_permalink, only: [:show, :archive, :unarchive, :destroy]
+  before_action :set_article_folder, only: :destroy
 
   # GET /articles
   # GET /articles.json
@@ -96,7 +96,7 @@ class ArticlesController < ApplicationController
   # DELETE /articles/1.json
   def destroy
     @article.destroy
-    redirect_back(fallback_location: folder_path)
+    redirect_to folder_path(@folder)
   end
 
   private
@@ -106,9 +106,13 @@ class ArticlesController < ApplicationController
     # end
 
     def set_article_from_permalink
-      article = Article.find_by!(permalink: params[:id], user_id: current_user.id)
-      article_id = article.id
+      article_id = Article.find_by!(permalink: params[:id], user_id: current_user.id).id
       @article = current_user.articles.find(article_id)
+    end
+
+    def set_article_folder
+      article = Article.find_by!(permalink: params[:id], user_id: current_user.id)
+      @folder = article.folder
     end
 
     # Only allow a list of trusted parameters through.
