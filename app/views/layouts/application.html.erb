@@ -56,21 +56,6 @@
       <%= yield %>
     </div>
 
-    <% if downloadable_folder? %>
-      <div id="download-modal" class="modal download">
-        <div class="modal__content">
-          <div class="modal__header">
-            Download
-            <span class="modal__close" data-close="true" title="Close">&times;</span>
-          </div>
-          <div class="modal__body">
-            <%#= link_to("Mobi", mobi_folder_path, itemprop: "url", class: "button", target: :_blank) %>
-            <%#= link_to("ePub", epub_folder_path, itemprop: "url", class: "button", target: :_blank) %>
-          </div>
-        </div>
-      </div>
-    <% end %>
-
     <div id="add-link-modal" class="modal add-link">
       <div class="modal__content">
         <div class="modal__header">
