@@ -20,7 +20,7 @@ module ArticleFetch
     document.to_s
     article = ArticleParser.download(document) unless article_status == 0
 
-    article.to_s
+    return article.to_s
 
   end
 
