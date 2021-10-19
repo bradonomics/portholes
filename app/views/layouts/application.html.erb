@@ -8,6 +8,7 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <% if stripe_page %><script src="https://js.stripe.com/v3/"></script><% end %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
@@ -24,9 +25,11 @@
       <nav class="navigation" id="navigation" itemscope itemtype="https://schema.org/SiteNavigationElement">
         <ul class="menu" data-collapsed="true">
           <% if user_signed_in? %>
-            <li class="menu-item">
-              <a id="add-link" class="button primary small" href="/add-link/"><%= inline_svg('plus-solid.svg') %>Add Link</a>
-            </li>
+            <% if current_user.subscriber %>
+              <li class="menu-item">
+                <a id="add-link" class="button primary small" href="/add-link/"><%= inline_svg('plus-solid.svg') %>Add Link</a>
+              </li>
+            <% end %>
             <li class="menu-item">
               <a href="/navigation/" class="sub-menu-toggle" aria-expanded="false">
                 <%= current_user.email %>
@@ -54,6 +57,7 @@
 
     <div class="site-inner">
       <%= render "layouts/flash" %>
+      <% if user_signed_in? && current_user.subscriber == false %><%= remaining_days_notice %><% end %>
       <%= yield %>
     </div>
 

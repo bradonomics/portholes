@@ -47,4 +47,8 @@ Rails.application.routes.draw do
     post ":hello_token" => "articles#create"
   end
 
+  post "billing", to: "billing#create", as: "billing_create"
+  post "billing/edit", to: "billing#edit", as: "billing_edit"
+  resources :webhooks, only: [:create]
+
 end

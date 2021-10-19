@@ -2,6 +2,11 @@ class ApplicationController < ActionController::Base
 
   add_flash_types :success, :warning, :error
 
+  helper_method :subscriber?
+  def subscriber?
+    current_user.subscriber || current_user.created_at > 2.weeks.ago
+  end
+
   # Get the title for displaying in the list.
   def get_title(url)
     page = MetaInspector.new(url)
@@ -53,10 +58,9 @@ class ApplicationController < ActionController::Base
       redirect_to root_url, error: "Unauthorized access." unless current_user_admin?
     end
 
+    helper_method :current_user_admin?
     def current_user_admin?
       current_user && current_user.admin?
     end
-
-    helper_method :current_user_admin?
 
 end

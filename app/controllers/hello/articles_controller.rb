@@ -14,6 +14,8 @@ module Hello
     end
 
     def create
+      return unless subscriber?
+
       current_user = User.find_by_hello_token(params[:hello_token])
       # TODO: find_by_hello_token should be changed. Something more secure like
       # current_user = User.find_by_session_id(session[:user_id])
