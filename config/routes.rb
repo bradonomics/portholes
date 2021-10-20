@@ -40,6 +40,7 @@ Rails.application.routes.draw do
     end
   end
   # resources :articles, only: [:index]
+  get "export" => "articles#export", as: "export"
 
   namespace :hello, defaults: { format: 'js' } do
     # resources :articles

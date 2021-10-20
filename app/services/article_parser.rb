@@ -50,7 +50,7 @@ module ArticleParser
       image = Down.download(img.attr('src'))
       # Get the file extention
       image_type = Rack::Mime::MIME_TYPES.invert[image.content_type]
-      # Rename the file for those idiot who like to string URLs together and break the internet
+      # Rename the file for those idiots who like to string URLs together and break the internet
       image_name = "#{count.to_words}" + "#{image_type}"
       # Move the file to the appropriate directory
       FileUtils.mv(image.path, "#{full_directory_path}/#{file_name}/#{image_name}")

@@ -92,6 +92,14 @@ class ArticlesController < ApplicationController
     redirect_back(fallback_location: folder_path)
   end
 
+  def export
+    articles = current_user.articles
+    respond_to do |format|
+      format.html
+      format.csv { send_data articles.to_csv, filename: "portholes-export-#{Date.today}.csv" }
+    end
+  end
+
   # DELETE /articles/1
   # DELETE /articles/1.json
   def destroy
