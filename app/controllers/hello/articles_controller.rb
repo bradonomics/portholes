@@ -36,6 +36,7 @@ module Hello
         @article.position = 0
       else
         @article = current_user.articles.new(link: clean_url)
+        @article.user = current_user
         folder = Folder.where(name: "Unread", user_id: current_user.id).first_or_create
         folder_id = folder.id
         @article.folder_id = folder_id
