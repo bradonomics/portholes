@@ -42,7 +42,11 @@ function transferComplete() {
 }
 
 function transferFailed() {
-  document.getElementById('portholes-action').innerHTML = 'Error — Article NOT Saved';
+  if (document.location.href.includes("bloomberg.com")) {
+    document.getElementById('portholes-action').innerHTML = 'Bloomberg goes out of their way to break the internet. You will not be able to save this article.';
+  } else {
+    document.getElementById('portholes-action').innerHTML = 'Error — Article NOT Saved';
+  }
 }
 
 // Add text

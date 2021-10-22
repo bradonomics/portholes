@@ -8,6 +8,8 @@ class ApplicationController < ActionController::Base
   end
 
   # Get the title for displaying in the list.
+  # Unless you are bloomberg.com: https://github.com/metainspector/metainspector/issues/245
+  # Use for testing: https://www.bloomberg.com/news/articles/2021-04-30/more-americans-are-considering-retirement-because-of-covid
   def get_title(url)
     page = MetaInspector.new(url)
     if page.title.present?

@@ -55,9 +55,14 @@ class ArticlesController < ApplicationController
     @article.save!
     redirect_back(fallback_location: folder_path("unread"))
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
-    redirect_to folder_path, error: "Failed to save article.<br>ActiveRecord, not :link, error<br>#{@article.errors.full_messages}"
+    redirect_back fallback_location: folder_path("unread"), error: "Failed to save article.<br>ActiveRecord, not :link, error<br>#{@article.errors.full_messages}"
   rescue FetchError => error
-    redirect_to folder_path, error: "Article not found. Check the URL and try again.<br>#{error}"
+    if URI.parse(clean_url).host.include? "bloomberg.com"
+      error_message = "Bloomberg goes out of their way to break the internet. You will not be able to save this article."
+    else
+      error_message = "Article not found. Check the URL and try again."
+    end
+    redirect_back fallback_location: folder_path("unread"), error: "#{error_message}<br>#{error}"
   end
 
   # PATCH/PUT /articles/1
