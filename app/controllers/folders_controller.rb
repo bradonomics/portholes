@@ -87,6 +87,7 @@ class FoldersController < ApplicationController
 
   # GET /folders/:permalink/download
   def download
+    current_user.update(download_failed: nil) unless current_user.download_failed == nil
     folder = Folder.find(current_user.folders.find_by_permalink(params[:permalink]).id)
     DownloadJob.perform_later(current_user, folder)
     redirect_to edit_user_registration_path, notice: 'Your download is processing. You will need to refresh this page to see it in the downloads section below.'

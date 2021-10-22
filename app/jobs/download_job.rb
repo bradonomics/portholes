@@ -13,5 +13,9 @@ class DownloadJob < ApplicationJob
     else
       EbookCreator.mobi(ebook.user_directory, ebook.full_directory_path, ebook_file_name)
     end
+
+  rescue StandardError => error
+    current_user.update(download_failed: "Your most recent download failed. If this is the first time you've seen this error, please try your download again. Otherwise, you will need to contact support.")
   end
+
 end
