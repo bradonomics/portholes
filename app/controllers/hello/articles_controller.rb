@@ -14,15 +14,16 @@ module Hello
     end
 
     def create
-      return unless subscriber?
-
       current_user = User.find_by_hello_token(params[:hello_token])
       # TODO: find_by_hello_token should be changed. Something more secure like
       # current_user = User.find_by_session_id(session[:user_id])
       # Except find_by_session_id doesn't work if they're
       # not logged in. So a redirect to login would be needed.
 
+      return unless current_user.subscriber
+
       clean_url = strip_utm_params(params[:link])
+
       # if link is already in database for this user, move it to home
       if current_user.articles.find_by_link(clean_url).present?
         @article = current_user.articles.find_by_link(clean_url)
@@ -35,7 +36,6 @@ module Hello
         @article.position = 0
       else
         @article = current_user.articles.new(link: clean_url)
-        @article.user = current_user
         folder = Folder.where(name: "Unread", user_id: current_user.id).first_or_create
         folder_id = folder.id
         @article.folder_id = folder_id
