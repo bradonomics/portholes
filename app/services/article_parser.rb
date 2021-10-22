@@ -2,6 +2,7 @@ require 'nokogiri'
 require 'down'
 require 'fileutils'
 require 'rack/mime'
+require 'net/http'
 
 module ArticleParser
 
@@ -46,16 +47,30 @@ module ArticleParser
     article.css('img').each do |img|
       # Make sure the image isn't a `data:image` as it will error on download
       next if img.attr('src').include? 'data:image/svg+xml'
+
+      # Check that the image is avaliable (no 404s)
+      url = URI.parse(img.attr('src'))
+      req = Net::HTTP.new(url.host, url.port)
+      req.use_ssl = true
+      res = req.request_head(url.path)
+
       # Download the image with Down gem
-      image = Down.download(img.attr('src'))
-      # Get the file extention
-      image_type = Rack::Mime::MIME_TYPES.invert[image.content_type]
-      # Rename the file for those idiots who like to string URLs together and break the internet
-      image_name = "#{count.to_words}" + "#{image_type}"
-      # Move the file to the appropriate directory
-      FileUtils.mv(image.path, "#{full_directory_path}/#{file_name}/#{image_name}")
-      # Update the `img` tag in the article body
-      img.attributes['src'].value = "#{file_name}/#{image_name}"
+      if res.code == "200"
+        image = Down.download(img.attr('src'))
+        # Get the file extention
+        image_type = Rack::Mime::MIME_TYPES.invert[image.content_type]
+        # Rename the file for those idiots who like to string URLs together and break the internet
+        image_name = "#{count.to_words}" + "#{image_type}"
+        # Move the file to the appropriate directory
+        FileUtils.mv(image.path, "#{full_directory_path}/#{file_name}/#{image_name}")
+        # Update the `img` tag in the article body
+        img.attributes['src'].value = "#{file_name}/#{image_name}"
+      else
+        # Copy the "no-image" file to the appropriate directory
+        FileUtils.cp("app/assets/images/no-image.jpg", "#{full_directory_path}/#{file_name}/#{count.to_words}.jpg")
+        # Update the `img` tag in the article body
+        img.attributes['src'].value = "#{file_name}/#{count.to_words}.jpg"
+      end
 
       count += 1
     end
