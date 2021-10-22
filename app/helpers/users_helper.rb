@@ -11,7 +11,7 @@ module UsersHelper
     end
     if days <= 0
       notice_text = "Your free trial has ended. To continue using Portholes, you can "
-    elsif days = 1
+    elsif days == 1
       notice_text = "You have #{days} day left of your free trial. You can "
     else
       notice_text = "You have #{days} days left of your free trial. You can "
