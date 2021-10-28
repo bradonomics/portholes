@@ -46,7 +46,7 @@ class ArticlesController < ApplicationController
     else
       @article = current_user.articles.new(link: clean_url)
       @article.user = current_user
-      folder = Folder.where(name: params[:folder], user_id: current_user.id).first_or_create
+      folder = Folder.find_by(name: params[:folder], user_id: current_user.id)
       @article.folder_id = folder.id
       @article.title = get_title(clean_url)
       @article.body = ArticleFetch.download(@article)
@@ -97,6 +97,7 @@ class ArticlesController < ApplicationController
     redirect_back(fallback_location: folder_path)
   end
 
+  # GET /export.csv
   def export
     articles = current_user.articles
     respond_to do |format|
