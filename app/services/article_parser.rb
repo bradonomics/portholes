@@ -3,6 +3,7 @@ require 'down'
 require 'fileutils'
 require 'rack/mime'
 require 'net/http'
+require 'httparty'
 
 module ArticleParser
 
@@ -48,14 +49,9 @@ module ArticleParser
       # Make sure the image isn't a `data:image` as it will error on download
       next if img.attr('src').include? 'data:image/svg+xml'
 
-      # Check that the image is avaliable (no 404s)
-      url = URI.parse(img.attr('src'))
-      req = Net::HTTP.new(url.host, url.port)
-      req.use_ssl = true
-      res = req.request_head(url.path)
-
       # Download the image with Down gem
-      if res.code == "200"
+      url = URI.parse(img.attr('src'))
+      if HTTParty.get(url).response.code == '200' # Check that the image is avaliable (no 404s)
         image = Down.download(img.attr('src'))
         # Get the file extention
         image_type = Rack::Mime::MIME_TYPES.invert[image.content_type]
