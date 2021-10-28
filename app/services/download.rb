@@ -29,7 +29,7 @@ class Download
       host = URI.parse(url.link).host
 
       # Send document to Readability for parsing
-      article, article_status = Open3.capture2("node lib/readability/content.js '#{url.link}'", stdin_data: document)
+      article, article_status = Open3.capture2("node lib/services/readability.js '#{url.link}'", stdin_data: document)
 
       # If Readability fails, use home-built parser
       # next unless article_status == 0

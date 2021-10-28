@@ -12,7 +12,7 @@ module ArticleFetch
     document = Nokogiri::HTML(request.body)
 
     # Send document to Readability for parsing
-    article, article_status = Open3.capture2("node lib/readability/content.js '#{article.link}'", stdin_data: document)
+    article, article_status = Open3.capture2("node lib/services/readability.js '#{article.link}'", stdin_data: document)
 
     # next unless article_status == 0
     # If Readability fails, use home-built parser
