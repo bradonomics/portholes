@@ -60,7 +60,7 @@ class ArticlesController < ApplicationController
     if URI.parse(clean_url).host.include? "bloomberg.com"
       error_message = "Bloomberg goes out of their way to break the internet. You will not be able to save this article."
     else
-      error_message = "Article not found. Check the URL and try again."
+      error_message = "Error saving article. Check the URL and try again."
     end
     redirect_back fallback_location: folder_path("unread"), error: "#{error_message}<br>#{error}"
   end
