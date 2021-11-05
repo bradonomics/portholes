@@ -6,8 +6,9 @@ require 'net/http'
 require 'httparty'
 
 module ArticleParser
+  extend self
 
-  def self.download(document)
+  def download(document)
 
     # TODO: Could we use the print version should a site have one? Try World Hum.
 
@@ -38,7 +39,7 @@ module ArticleParser
 
   end
 
-  def self.images(full_directory_path, file_name, document)
+  def images(full_directory_path, file_name, document)
 
     # Tell nokogiri this is not a whole document
     article = Nokogiri::HTML::DocumentFragment.parse(document)
@@ -46,8 +47,28 @@ module ArticleParser
     count = 1
     # Replace the src for downloaded images
     article.css('img').each do |img|
-      # Make sure the image isn't a `data:image` as it will error on download
-      next if img.attr('src').include? 'data:image/svg+xml'
+      # If the image source is `nil` or an empty string, check if there is a `data-src` et al
+      if img.attr('src').blank?
+        if img.attr('data-src').present?
+          img.set_attribute('src', img.attr('data-src'))
+        elsif img.attr('data-image').present?
+          img.set_attribute('src', img.attr('data-image'))
+        elsif img.attr('data-img').present?
+          img.set_attribute('src', img.attr('data-img'))
+        else
+          img.set_attribute('src', '')
+          no_image_found(full_directory_path, file_name, img, count)
+          count += 1
+          next
+        end
+      end
+
+      # Make sure the image isn't an svg added as `data:image`
+      if img.attr('src').include? 'data:image/svg+xml'
+        no_image_found(full_directory_path, file_name, img, count)
+        count += 1
+        next
+      end
 
       # Download the image with Down gem
       url = URI.parse(img.attr('src'))
@@ -62,10 +83,7 @@ module ArticleParser
         # Update the `img` tag in the article body
         img.attributes['src'].value = "#{file_name}/#{image_name}"
       else
-        # Copy the "no-image" file to the appropriate directory
-        FileUtils.cp("app/assets/images/no-image.jpg", "#{full_directory_path}/#{file_name}/#{count.to_words}.jpg")
-        # Update the `img` tag in the article body
-        img.attributes['src'].value = "#{file_name}/#{count.to_words}.jpg"
+        no_image_found(full_directory_path, file_name, img, count)
       end
 
       count += 1
@@ -73,6 +91,13 @@ module ArticleParser
 
     return article
 
+  end
+
+  def no_image_found(full_directory_path, file_name, img, count)
+    # Copy the "no-image" file to the appropriate directory
+    FileUtils.cp("app/assets/images/no-image.jpg", "#{full_directory_path}/#{file_name}/#{count.to_words}.jpg")
+    # Update the `img` tag in the article body
+    img.attributes['src'].value = "#{file_name}/#{count.to_words}.jpg"
   end
 
 end
