@@ -30,6 +30,7 @@
 .main {
   display: block; // Fixes IE bug on `main` element
   position: relative;
+  margin: 0 auto;
   width: 100%;
   max-width: 100%;
   @include breakpoint(lg) {
