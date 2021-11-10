@@ -2,14 +2,14 @@
   <nav class="widget" itemscope itemtype="https://schema.org/SiteNavigationElement">
     <%= link_to folder_path("unread"), class: ("active" if current_page?(folder_path("unread"))), itemprop: "url" do %><%= inline_svg('home.svg') %>Unread<% end %>
     <%= link_to folder_path("archive"), class: ("active" if current_page?(folder_path("archive"))), itemprop: "url" do %><%= inline_svg('archive.svg') %>Archive<% end %>
-    <% Array(sidebar_folders).each do |folder| %>
-      <%= link_to folder_path(folder.permalink), class: ("active" if current_page?(folder_path(folder.permalink))), itemprop: "url" do %><%= inline_svg('folder-open-solid.svg') %><%= folder.name %><% end %>
-    <% end %>
-    <%= form_with(url: folders_path, id: 'new-folder') do |form| %>
-      <%= inline_svg('folder-open-solid.svg') %>
-      <%= form.label :name, class: "screen-reader-text" %>
-      <%= form.text_field :name, placeholder: "Add Folder" %>
-      <%= form.submit %>
-    <% end %>
+    <%# Array(sidebar_folders).each do |folder| %>
+      <%#= link_to folder_path(folder.permalink), class: ("active" if current_page?(folder_path(folder.permalink))), itemprop: "url" do %><%#= inline_svg('folder-open-solid.svg') %><%#= folder.name %><%# end %>
+    <%# end %>
+    <%#= form_with(url: folders_path, id: 'new-folder') do |form| %>
+      <%#= inline_svg('folder-open-solid.svg') %>
+      <%#= form.label :name, class: "screen-reader-text" %>
+      <%#= form.text_field :name, placeholder: "Add Folder" %>
+      <%#= form.submit %>
+    <%# end %>
   </nav>
 </aside>
