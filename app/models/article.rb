@@ -26,7 +26,13 @@ class Article < ApplicationRecord
   private
 
     def set_permalink
-      self.permalink = title.parameterize
+      if title.parameterize.blank?
+        self.permalink = title
+        # If the above turns out to be a poor choice, this is how you can get an encoded URL:
+        # file_name = Addressable::URI.encode(title)
+      else
+        self.permalink = title.parameterize
+      end
     end
 
 end

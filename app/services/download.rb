@@ -9,10 +9,9 @@ class Download
 
   def initialize(user, articles)
     @articles = articles
-    # @directory = "tmp/#{user.hello_token}-#{DateTime.now.to_s.parameterize}"
     @user_directory = "public/downloads/#{user.hello_token}"
     @full_directory_path = "#{@user_directory}/#{DateTime.now.to_s.parameterize}"
-    @files = []
+    @files = [] # Used in services/table_of_contents.rb
   end
 
   def download
@@ -39,8 +38,14 @@ class Download
 
       # Add title and file_name to files array
       title = url.title
-      file_name = title.parameterize
-      @files.push([url.title, file_name])
+      if title.parameterize.blank?
+        file_name = title
+        # If the above turns out to be a poor choice, this is how you can get an encoded URL:
+        # file_name = Addressable::URI.encode(title)
+      else
+        file_name = title.parameterize
+      end
+      @files.push([title, file_name])
 
       # Download images and replace image src in article
       Dir.mkdir("#{@full_directory_path}/#{file_name}") unless Dir.exists?("#{@full_directory_path}/#{file_name}")
