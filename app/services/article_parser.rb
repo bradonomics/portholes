@@ -70,8 +70,18 @@ module ArticleParser
         next
       end
 
-      # Download the image with Down gem
+      # Set `url` from `src`
       url = URI.parse(img.attr('src'))
+
+      # Check if there is some amazon ad nonsense
+      if url.host.include?('amazon-adsystem.com')
+        img.set_attribute('src', '')
+        no_image_found(full_directory_path, file_name, img, count)
+        count += 1
+        next
+      end
+
+      # Download the image with Down gem
       if HTTParty.get(url).response.code == '200' # Check that the image is avaliable (no 404s)
         image = Down.download(img.attr('src'))
         # Get the file extention
