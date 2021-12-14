@@ -16,8 +16,6 @@ class FoldersController < ApplicationController
   # GET /folders/:permalink
   # GET /folders/:permalink.json
   def show
-    redirect_to edit_user_registration_path, alert: 'Your free trial has ended. You will need to subscribe if you wish to continue using Portholes.' unless subscriber?
-
     folder_id = Folder.find_by_permalink(params[:permalink]).id
     @folder = Folder.find(folder_id)
 

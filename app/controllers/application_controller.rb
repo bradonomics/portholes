@@ -2,11 +2,6 @@ class ApplicationController < ActionController::Base
 
   add_flash_types :success, :warning, :error
 
-  helper_method :subscriber?
-  def subscriber?
-    current_user.subscriber || current_user.created_at > 2.weeks.ago
-  end
-
   # Get the title for displaying in the list.
   # Unless you are bloomberg.com: https://github.com/metainspector/metainspector/issues/245
   # Use for testing: https://www.bloomberg.com/news/articles/2021-04-30/more-americans-are-considering-retirement-because-of-covid

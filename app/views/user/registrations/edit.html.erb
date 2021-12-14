@@ -1,76 +1,54 @@
 <main class="main">
 
-  <% unless current_user.subscriber %>
-    <h2 class="section__title">
-      <svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M551.991 64H144.28l-8.726-44.608C133.35 8.128 123.478 0 112 0H12C5.373 0 0 5.373 0 12v24c0 6.627 5.373 12 12 12h80.24l69.594 355.701C150.796 415.201 144 430.802 144 448c0 35.346 28.654 64 64 64s64-28.654 64-64a63.681 63.681 0 0 0-8.583-32h145.167a63.681 63.681 0 0 0-8.583 32c0 35.346 28.654 64 64 64 35.346 0 64-28.654 64-64 0-18.136-7.556-34.496-19.676-46.142l1.035-4.757c3.254-14.96-8.142-29.101-23.452-29.101H203.76l-9.39-48h312.405c11.29 0 21.054-7.869 23.452-18.902l45.216-208C578.695 78.139 567.299 64 551.991 64zM208 472c-13.234 0-24-10.766-24-24s10.766-24 24-24 24 10.766 24 24-10.766 24-24 24zm256 0c-13.234 0-24-10.766-24-24s10.766-24 24-24 24 10.766 24 24-10.766 24-24 24zm23.438-200H184.98l-31.31-160h368.548l-34.78 160z"></path></svg>
-      Subscribe to Portholes
-    </h2>
-    <%= link_to "Subscribe for $24 / year", billing_create_path, method: :post, remote: true, class: "button primary" %>
-    <div class="mb-4"></div>
+  <% if current_user.download_failed != nil %>
+    <%= content_tag(:div, current_user.download_failed, class: "flash flash-error") %>
   <% end %>
 
-  <% if subscriber? %>
-
-    <% if current_user.download_failed != nil %>
-      <%= content_tag(:div, current_user.download_failed, class: "flash flash-error") %>
-    <% end %>
-
-    <% if have_downloads? %>
-      <h2 class="section__title">
-        <svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zm76.45 211.36l-96.42 95.7c-6.65 6.61-17.39 6.61-24.04 0l-96.42-95.7C73.42 337.29 80.54 320 94.82 320H160v-80c0-8.84 7.16-16 16-16h32c8.84 0 16 7.16 16 16v80h65.18c14.28 0 21.4 17.29 11.27 27.36zM377 105L279.1 7c-4.5-4.5-10.6-7-17-7H256v128h128v-6.1c0-6.3-2.5-12.4-7-16.9z"></path></svg>
-        Downloads
-      </h2>
-      <div class="section">
-        <%= link_to ebook_file_name, ebook_download %>
-      </div>
-    <% end %>
-
+  <% if have_downloads? %>
     <h2 class="section__title">
-      <svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M433.941 129.941l-83.882-83.882A48 48 0 0 0 316.118 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V163.882a48 48 0 0 0-14.059-33.941zM272 80v80H144V80h128zm122 352H54a6 6 0 0 1-6-6V86a6 6 0 0 1 6-6h42v104c0 13.255 10.745 24 24 24h176c13.255 0 24-10.745 24-24V83.882l78.243 78.243a6 6 0 0 1 1.757 4.243V426a6 6 0 0 1-6 6zM224 232c-48.523 0-88 39.477-88 88s39.477 88 88 88 88-39.477 88-88-39.477-88-88-88zm0 128c-22.056 0-40-17.944-40-40s17.944-40 40-40 40 17.944 40 40-17.944 40-40 40z"></path></svg>
-      How to Save
+      <svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zm76.45 211.36l-96.42 95.7c-6.65 6.61-17.39 6.61-24.04 0l-96.42-95.7C73.42 337.29 80.54 320 94.82 320H160v-80c0-8.84 7.16-16 16-16h32c8.84 0 16 7.16 16 16v80h65.18c14.28 0 21.4 17.29 11.27 27.36zM377 105L279.1 7c-4.5-4.5-10.6-7-17-7H256v128h128v-6.1c0-6.3-2.5-12.4-7-16.9z"></path></svg>
+      Downloads
     </h2>
     <div class="section">
-      <p>Drag the bookmarklet below to your bookmarks bar. You can save news articles, blog posts, et cetera by clicking it when you are on a web page.</p>
+      <%= link_to ebook_file_name, ebook_download %>
+    </div>
+  <% end %>
 
-      <div class="mb-2">
-        <a class="button" href="javascript:void%20function(){script=document.createElement(%22script%22),script.src=%22<%= root_url %>hello/<%= current_user.hello_token %>%22,document.head.appendChild(script)}();">Save to Portholes</a>
-        <span>← Drag this button to your bookmarks bar.</span>
-      </div>
+  <h2 class="section__title">
+    <svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M433.941 129.941l-83.882-83.882A48 48 0 0 0 316.118 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V163.882a48 48 0 0 0-14.059-33.941zM272 80v80H144V80h128zm122 352H54a6 6 0 0 1-6-6V86a6 6 0 0 1 6-6h42v104c0 13.255 10.745 24 24 24h176c13.255 0 24-10.745 24-24V83.882l78.243 78.243a6 6 0 0 1 1.757 4.243V426a6 6 0 0 1-6 6zM224 232c-48.523 0-88 39.477-88 88s39.477 88 88 88 88-39.477 88-88-39.477-88-88-88zm0 128c-22.056 0-40-17.944-40-40s17.944-40 40-40 40 17.944 40 40-17.944 40-40 40z"></path></svg>
+    How to Save
+  </h2>
+  <div class="section">
+    <p>Drag the bookmarklet below to your bookmarks bar. You can save news articles, blog posts, et cetera by clicking it when you are on a web page.</p>
 
-      <p>When you click this bookmarket, a message will show on the page you have saved meaning it has been saved to your unread folder.</p>
+    <div class="mb-2">
+      <a class="button" href="javascript:void%20function(){script=document.createElement(%22script%22),script.src=%22<%= root_url %>hello/<%= current_user.hello_token %>%22,document.head.appendChild(script)}();">Save to Portholes</a>
+      <span>← Drag this button to your bookmarks bar.</span>
     </div>
 
-    <h2 class="section__title">
-      <svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M448 360V24c0-13.3-10.7-24-24-24H96C43 0 0 43 0 96v320c0 53 43 96 96 96h328c13.3 0 24-10.7 24-24v-16c0-7.5-3.5-14.3-8.9-18.7-4.2-15.4-4.2-59.3 0-74.7 5.4-4.3 8.9-11.1 8.9-18.6zM128 134c0-3.3 2.7-6 6-6h212c3.3 0 6 2.7 6 6v20c0 3.3-2.7 6-6 6H134c-3.3 0-6-2.7-6-6v-20zm0 64c0-3.3 2.7-6 6-6h212c3.3 0 6 2.7 6 6v20c0 3.3-2.7 6-6 6H134c-3.3 0-6-2.7-6-6v-20zm253.4 250H96c-17.7 0-32-14.3-32-32 0-17.6 14.4-32 32-32h285.4c-1.9 17.1-1.9 46.9 0 64z"></path></svg>
-      eBook Format
-      <div class="section">
-        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |form| %>
-          <%= render "user/shared/error_messages", resource: resource %>
-          <div class="field">
-            <%= form.radio_button :ebook_preference, 'mobi', class: 'align-middle' %>
-            <%= form.label :ebook_preference_kindle, 'Kindle', value: 'mobi' %>
-          </div>
-          <div class="field">
-            <%= form.radio_button :ebook_preference, 'epub', class: 'align-middle' %>
-            <%= form.label :ebook_preference_epub, 'ePub', value: 'epub' %>
-          </div>
-          <div class="actions">
-            <%= form.submit "Change", class: 'ebook-format-buton' %>
-          </div>
-        <% end %>
-      </div>
-    </h2>
+    <p>When you click this bookmarket, a message will show on the page you have saved meaning it has been saved to your unread folder.</p>
+  </div>
 
-    <% if current_user.subscriber %>
-      <h2 class="section__title">
-        <svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M551.991 64H144.28l-8.726-44.608C133.35 8.128 123.478 0 112 0H12C5.373 0 0 5.373 0 12v24c0 6.627 5.373 12 12 12h80.24l69.594 355.701C150.796 415.201 144 430.802 144 448c0 35.346 28.654 64 64 64s64-28.654 64-64a63.681 63.681 0 0 0-8.583-32h145.167a63.681 63.681 0 0 0-8.583 32c0 35.346 28.654 64 64 64 35.346 0 64-28.654 64-64 0-18.136-7.556-34.496-19.676-46.142l1.035-4.757c3.254-14.96-8.142-29.101-23.452-29.101H203.76l-9.39-48h312.405c11.29 0 21.054-7.869 23.452-18.902l45.216-208C578.695 78.139 567.299 64 551.991 64zM208 472c-13.234 0-24-10.766-24-24s10.766-24 24-24 24 10.766 24 24-10.766 24-24 24zm256 0c-13.234 0-24-10.766-24-24s10.766-24 24-24 24 10.766 24 24-10.766 24-24 24zm23.438-200H184.98l-31.31-160h368.548l-34.78 160z"></path></svg>
-        Edit Portholes Subscription
-      </h2>
-      <%= link_to "Update Billing Information", billing_edit_path, method: :post, remote: true, class: "button primary" %><span> ← Clicking this button will redirect you to Stripe.</span>
-      <div class="mb-4"></div>
-    <% end %>
-
-  <% end %>
+  <h2 class="section__title">
+    <svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M448 360V24c0-13.3-10.7-24-24-24H96C43 0 0 43 0 96v320c0 53 43 96 96 96h328c13.3 0 24-10.7 24-24v-16c0-7.5-3.5-14.3-8.9-18.7-4.2-15.4-4.2-59.3 0-74.7 5.4-4.3 8.9-11.1 8.9-18.6zM128 134c0-3.3 2.7-6 6-6h212c3.3 0 6 2.7 6 6v20c0 3.3-2.7 6-6 6H134c-3.3 0-6-2.7-6-6v-20zm0 64c0-3.3 2.7-6 6-6h212c3.3 0 6 2.7 6 6v20c0 3.3-2.7 6-6 6H134c-3.3 0-6-2.7-6-6v-20zm253.4 250H96c-17.7 0-32-14.3-32-32 0-17.6 14.4-32 32-32h285.4c-1.9 17.1-1.9 46.9 0 64z"></path></svg>
+    eBook Format
+    <div class="section">
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |form| %>
+        <%= render "user/shared/error_messages", resource: resource %>
+        <div class="field">
+          <%= form.radio_button :ebook_preference, 'mobi', class: 'align-middle' %>
+          <%= form.label :ebook_preference_kindle, 'Kindle', value: 'mobi' %>
+        </div>
+        <div class="field">
+          <%= form.radio_button :ebook_preference, 'epub', class: 'align-middle' %>
+          <%= form.label :ebook_preference_epub, 'ePub', value: 'epub' %>
+        </div>
+        <div class="actions">
+          <%= form.submit "Change", class: 'ebook-format-buton' %>
+        </div>
+      <% end %>
+    </div>
+  </h2>
 
   <h2 class="section__title">
     <svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M384 121.9c0-6.3-2.5-12.4-7-16.9L279.1 7c-4.5-4.5-10.6-7-17-7H256v128h128zM571 308l-95.7-96.4c-10.1-10.1-27.4-3-27.4 11.3V288h-64v64h64v65.2c0 14.3 17.3 21.4 27.4 11.3L571 332c6.6-6.6 6.6-17.4 0-24zm-379 28v-32c0-8.8 7.2-16 16-16h176V160H248c-13.2 0-24-10.8-24-24V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V352H208c-8.8 0-16-7.2-16-16z"></path></svg>

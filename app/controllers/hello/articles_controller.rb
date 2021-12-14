@@ -20,8 +20,6 @@ module Hello
       # Except find_by_session_id doesn't work if they're
       # not logged in. So a redirect to login would be needed.
 
-      return unless current_user.subscriber
-
       clean_url = strip_utm_params(params[:link])
 
       # if link is already in database for this user, move it to home

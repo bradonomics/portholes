@@ -33,12 +33,6 @@ gem 'numbers_and_words'
 gem 'httparty'
 gem 'nokogiri'
 
-# Ruby library for the Stripe API
-gem 'stripe'
-
-# ENV configuration
-gem 'figaro'
-
 # Pagination
 gem 'pagy', '~> 4.10.1'
 

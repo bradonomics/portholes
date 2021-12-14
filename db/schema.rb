@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_14_191821) do
+ActiveRecord::Schema.define(version: 2021_12_14_201135) do
 
   create_table "articles", force: :cascade do |t|
     t.string "title"
@@ -52,8 +52,6 @@ ActiveRecord::Schema.define(version: 2021_12_14_191821) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "hello_token"
     t.string "ebook_preference"
-    t.string "stripe_id"
-    t.boolean "subscriber", default: false
     t.string "download_failed"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
