@@ -1,0 +1,7 @@
+<aside class="sidebar">
+  <nav class="widget">
+    <%= link_to article.link do %><%= inline_svg('external-link-alt-solid.svg') %>Open Original<% end %>
+    <%= link_to edit_article_path(article) do %><%= inline_svg('edit-solid.svg') %>Edit<% end %>
+    <%= link_to article_path(article), method: :delete, data: { confirm: "Are you sure you want to permanently delete this article?" }, class: "delete" do %><%= inline_svg('trash.svg') %>Delete<% end %>
+  </nav>
+</aside>

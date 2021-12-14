@@ -12,7 +12,7 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body<% if params[:controller] == 'folders' %> class="sidebar-content"<% end %>>
+  <body<% if params[:controller] == 'folders' %> class="sidebar-content"<% elsif params[:controller] == 'articles' %>  class="content-sidebar"<% end %>>
 
     <header class="site-header" itemscope itemtype="https://schema.org/WPHeader">
 
@@ -29,6 +29,9 @@
               <li class="menu-item">
                 <a id="add-link" class="button primary small" href="/add-link/"><%= inline_svg('plus-solid.svg') %>Add Link</a>
               </li>
+              <li class="menu-item">
+                <%= link_to(new_article_path, class: 'button primary small') do %><%= inline_svg('plus-solid.svg') %>Add Article<% end %>
+              </li>
             <% end %>
             <li class="menu-item">
               <a href="/navigation/" class="sub-menu-toggle" aria-expanded="false">
@@ -37,19 +40,19 @@
               </a>
               <ul class="sub-menu" data-collapsed="true">
                 <% if downloadable_folder? %>
-                  <li class="menu-item"><%= link_to("Download", download_folder_path, itemprop: "url") %></li>
+                  <li class="menu-item"><%= link_to("Download", download_folder_path) %></li>
                 <% end %>
                 <% if current_page?(folder_path("unread")) %>
                   <li class="menu-item"><a id="archive-all" href="/archive-all/" itemprop="url">Archive All</a></li>
                 <% end %>
-                <%= content_tag(:li, link_to("Settings", edit_user_registration_path, itemprop: "url"), class: "menu-item") %>
+                <%= content_tag(:li, link_to("Settings", edit_user_registration_path), class: "menu-item") %>
                 <%= content_tag(:li, link_to("Help & FAQ", "https://portholes.app/faq/"), class: "menu-item") %>
-                <%= content_tag(:li, link_to("Log Out", destroy_user_session_path, method: :delete, itemprop: "url"), class: "menu-item") %>
+                <%= content_tag(:li, link_to("Log Out", destroy_user_session_path, method: :delete), class: "menu-item") %>
               </ul>
             </li>
           <% else %>
-            <%= content_tag(:li, link_to("Log In", new_user_session_path, itemprop: "url"), class: "menu-item") %>
-            <%= content_tag(:li, link_to("Create Account", new_user_registration_path, itemprop: "url"), class: "menu-item") %>
+            <%= content_tag(:li, link_to("Log In", new_user_session_path), class: "menu-item") %>
+            <%= content_tag(:li, link_to("Create Account", new_user_registration_path), class: "menu-item") %>
           <% end %>
         </ul>
       </nav>

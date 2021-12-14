@@ -25,6 +25,9 @@ class ApplicationController < ActionController::Base
   end
 
   def strip_utm_params(url)
+    # If there's no `http` it most likely means it was added from the #new action
+    return unless url.include? 'http'
+
     # The below is from the `url=(u)` method in https://github.com/lobsters/lobsters/blob/master/app/models/story.rb
     uri = url.to_s
     if (uri.match(/\A([^\?]+)\?(.+)\z/))
@@ -49,6 +52,10 @@ class ApplicationController < ActionController::Base
     return url
   rescue StandardError => error
     raise FetchError, "#{error}"
+  end
+
+  def is_numberic?(string)
+    string.scan(/\D/).empty?
   end
 
   private

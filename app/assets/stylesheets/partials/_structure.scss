@@ -21,7 +21,8 @@
   margin: 0 auto;
   padding: 2.5rem $spacer;
 
-  .sidebar-content & {
+  .sidebar-content &,
+  .content-sidebar & {
     justify-content: space-between;
   }
 
@@ -46,7 +47,8 @@
     max-width: 49rem;
   }
 
-  .sidebar-content & {
+  .sidebar-content &,
+  .content-sidebar & {
     border: 0;
     background-color: transparent;
     padding: 0;

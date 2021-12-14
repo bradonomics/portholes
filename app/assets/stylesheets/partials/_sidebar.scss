@@ -20,6 +20,10 @@
   //   background-color: #fff;
   // }
 
+  .content-sidebar & {
+    order: 2;
+  }
+
   nav a {
     display: flex;
     position: relative;
