@@ -1,7 +1,15 @@
 <aside class="sidebar">
   <nav class="widget">
-    <%= link_to article.link do %><%= inline_svg('external-link-alt-solid.svg') %>Open Original<% end %>
+    <% if article.link.include? 'http' %>
+      <%= link_to article.link do %><%= inline_svg('external-link-alt-solid.svg') %>Original<% end %>
+    <% end %>
     <%= link_to edit_article_path(article) do %><%= inline_svg('edit-solid.svg') %>Edit<% end %>
+    <% unless article.folder.permalink == 'archive' %>
+      <%= link_to archive_article_path(article), method: :patch do %><%= inline_svg("archive.svg") %>Archive<% end %>
+    <% end %>
+    <% unless article.folder.permalink == 'unread' %>
+      <%= link_to unarchive_article_path(article), method: :patch do %><%= inline_svg("archive.svg") %>Unread<% end %>
+    <% end %>
     <%= link_to article_path(article), method: :delete, data: { confirm: "Are you sure you want to permanently delete this article?" }, class: "delete" do %><%= inline_svg('trash.svg') %>Delete<% end %>
   </nav>
 </aside>
