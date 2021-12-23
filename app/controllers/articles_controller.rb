@@ -67,7 +67,7 @@ class ArticlesController < ApplicationController
     end
 
     @article.save!
-    redirect_to folder_path("unread")
+    redirect_back fallback_location: folder_path("unread")
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved
     redirect_back fallback_location: folder_path("unread"), error: "Failed to save article.<br>This was an ActiveRecord error, not a `:link` error<br>#{@article.errors.full_messages}"
   rescue FetchError => error
