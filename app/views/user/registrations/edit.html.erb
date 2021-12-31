@@ -36,12 +36,20 @@
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |form| %>
         <%= render "user/shared/error_messages", resource: resource %>
         <div class="field">
-          <%= form.radio_button :ebook_preference, 'mobi', class: 'align-middle' %>
-          <%= form.label :ebook_preference_kindle, 'Kindle', value: 'mobi' %>
-        </div>
-        <div class="field">
           <%= form.radio_button :ebook_preference, 'epub', class: 'align-middle' %>
           <%= form.label :ebook_preference_epub, 'ePub', value: 'epub' %>
+        </div>
+        <div class="field">
+          <%= form.radio_button :ebook_preference, 'azw', class: 'align-middle' %>
+          <%= form.label :ebook_preference_kindle, 'Kindle (azw)', value: 'azw' %>
+        </div>
+        <div class="field">
+          <%= form.radio_button :ebook_preference, 'new_mobi', class: 'align-middle' %>
+          <%= form.label :ebook_preference_kindle, 'Kindle (new mobi)', value: 'new_mobi' %>
+        </div>
+        <div class="field">
+          <%= form.radio_button :ebook_preference, 'old_mobi', class: 'align-middle' %>
+          <%= form.label :ebook_preference_kindle, 'Kindle (old mobi)', value: 'old_mobi' %>
         </div>
         <div class="actions">
           <%= form.submit "Change", class: 'ebook-format-buton' %>

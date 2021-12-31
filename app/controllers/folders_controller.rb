@@ -87,7 +87,25 @@ class FoldersController < ApplicationController
   def download
     current_user.update(download_failed: nil) unless current_user.download_failed == nil
     folder = Folder.find(current_user.folders.find_by_permalink(params[:permalink]).id)
-    DownloadJob.perform_later(current_user, folder)
+    # DownloadJob.perform_later(current_user, folder)
+
+    # TODO: Make a environment variable check to use the Job with redirect only
+    # in production.
+
+    # When unknown errors arise, comment-out the DownloadJob call above, and
+    # use the below for better error reporting
+    articles = current_user.articles.left_outer_joins(:folder).where(folder: folder)
+    ebook = Download.new(current_user, articles)
+    ebook.download
+    TableOfContents.create("#{ebook.full_directory_path}/toc.html", ebook.files)
+    # fail
+    ebook_file_name = "Portholes-#{folder.name.parameterize(preserve_case: true)}-#{Date.today.to_s}"
+    unless current_user.ebook_preference == 'epub'
+      EbookCreator.kindle(current_user, ebook.user_directory, ebook.full_directory_path, ebook_file_name, folder)
+    else
+      EbookCreator.epub(current_user, ebook.user_directory, ebook.full_directory_path, ebook_file_name, folder)
+    end
+
     redirect_to edit_user_registration_path, notice: 'Your download is processing. You will need to refresh this page to see it in the downloads section below.'
   end
 

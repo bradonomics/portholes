@@ -58,7 +58,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       folder_archive.save
 
       # Create default eBook Preference
-      user.ebook_preference = 'mobi'
+      user.ebook_preference = 'epub'
       user.save
 
     end

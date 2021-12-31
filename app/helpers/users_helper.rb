@@ -22,7 +22,7 @@ module UsersHelper
   end
 
   def have_downloads?
-    Dir.glob("#{Rails.public_path}/downloads/#{current_user.hello_token}/*.mobi").any? || Dir.glob("#{Rails.public_path}/downloads/#{current_user.hello_token}/*.epub").any?
+    Dir.glob("#{Rails.public_path}/downloads/#{current_user.hello_token}/*.azw3").any? || Dir.glob("#{Rails.public_path}/downloads/#{current_user.hello_token}/*.mobi").any? || Dir.glob("#{Rails.public_path}/downloads/#{current_user.hello_token}/*.epub").any?
   end
 
   def ebook_file_name
