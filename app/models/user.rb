@@ -29,4 +29,10 @@ class User < ApplicationRecord
     end while User.exists?(column => self[column])
   end
 
+  # after_destroy do
+    # Is this something I want to do? How will this affect payments and cancelations and whatnot?
+    # Probably need to call a subscription.cancel first.
+    # Stripe::Customer.delete(self.stripe_id)
+  # end
+
 end
