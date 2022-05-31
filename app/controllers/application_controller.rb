@@ -49,7 +49,7 @@ class ApplicationController < ActionController::Base
     raise FetchError, "#{error}"
   end
 
-  def is_numberic?(string)
+  def is_numeric?(string)
     string.scan(/\D/).empty?
   end
 

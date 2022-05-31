@@ -34,7 +34,7 @@ class ArticlesController < ApplicationController
   # POST /articles.json
   def create
 
-    if is_numberic?(article_params[:link])
+    if is_numeric?(article_params[:link])
       @article = current_user.articles.new
       @article.link = article_params[:link]
       @article.user = current_user

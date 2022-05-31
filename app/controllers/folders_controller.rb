@@ -69,7 +69,7 @@ class FoldersController < ApplicationController
     head :ok
   end
 
-  # PATCH /articles/:id/archive-all
+  # PATCH /folders/:id/archive-all
   def archive_all
     archive_folder = Folder.where(name: "Archive", user_id: current_user.id).first_or_create
 
