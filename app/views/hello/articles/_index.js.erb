@@ -37,6 +37,9 @@ div.innerHTML = '\
   <p id="portholes-close">&#10799;</p>\
 ';
 
+// Add text
+document.body.appendChild(div);
+
 function transferComplete() {
   document.getElementById('portholes-action').innerHTML = 'Saved';
 }
@@ -49,18 +52,12 @@ function transferFailed() {
   }
 }
 
-// Add text
-document.body.appendChild(div);
-
 var request = new XMLHttpRequest();
 request.addEventListener('load', transferComplete);
 request.addEventListener('error', transferFailed);
 
-var body = document.body;
-var url = '<%= root_url %>hello/<%= @current_user.hello_token %>?link=' + document.location.href;
-
-if (body) try {
-  request.open('POST', url);
+if (document.body) try {
+  request.open('POST', '<%= root_url %>hello/<%= @current_user.hello_token %>?link=' + document.location.href);
   request.send();
 } catch(e) {
   alert('Something went wrong.');
@@ -69,4 +66,4 @@ if (body) try {
 // Remove all of this nonsense if they click the X
 document.getElementById('portholes-close').addEventListener('click', function() {
   document.querySelector('.portholes-notice').remove();
-}​);​
+});
